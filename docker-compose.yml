@@ -1,0 +1,53 @@
+services:
+
+  postgres:
+    image: postgis/postgis:16-3.4
+    container_name: shoplens-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: shoplens
+      POSTGRES_USER: shoplens
+      POSTGRES_PASSWORD: shoplens
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - shoplens_postgres_data:/var/lib/postgresql/data
+      - ./database/01-init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./database/02-seed.sql:/docker-entrypoint-initdb.d/02-seed.sql:ro
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shoplens -d shoplens"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: shoplens-pgadmin
+    restart: unless-stopped
+
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+
+    ports:
+      - "5050:80"
+
+    volumes:
+      - shoplens_pgadmin_data:/var/lib/pgadmin
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+
+volumes:
+  shoplens_postgres_data:
+    name: shoplens_postgres_data
+
+  shoplens_pgadmin_data:
+    name: shoplens_pgadmin_data
