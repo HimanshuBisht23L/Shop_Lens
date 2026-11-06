@@ -16,6 +16,9 @@ CREATE EXTENSION IF NOT EXISTS pg_trgm;
 -- Geospatial / location support
 CREATE EXTENSION IF NOT EXISTS postgis;
 
+-- Normal Language search / sentence transformers
+CREATE EXTENSION IF NOT EXISTS vector;
+
 
 -- ============================================================
 -- USERS
@@ -108,8 +111,8 @@ CREATE TABLE products (
 
     image_url TEXT,
 
-    -- Semantic-search embedding will be added later
-    -- when pgvector is installed.
+    -- Semantic-search embedding
+    embedding vector(384) NULL,
 
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
 
@@ -119,6 +122,44 @@ CREATE TABLE products (
         FOREIGN KEY (category_id)
         REFERENCES categories(id)
         ON DELETE SET NULL
+);
+
+
+-- ============================================================
+-- ATTRIBUTES
+-- ============================================================
+
+CREATE TABLE attributes (
+    id SERIAL PRIMARY KEY,
+
+    name VARCHAR(100) NOT NULL UNIQUE,
+
+    description TEXT,
+
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+
+-- ============================================================
+-- PRODUCT ATTRIBUTES (MAPPING TABLE)
+-- ============================================================
+
+CREATE TABLE product_attributes (
+    product_id INTEGER NOT NULL,
+
+    attribute_id INTEGER NOT NULL,
+
+    PRIMARY KEY (product_id, attribute_id),
+
+    CONSTRAINT fk_product_attribute_product
+        FOREIGN KEY (product_id)
+        REFERENCES products(id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_product_attribute_attribute
+        FOREIGN KEY (attribute_id)
+        REFERENCES attributes(id)
+        ON DELETE CASCADE
 );
 
 
@@ -394,6 +435,10 @@ CREATE INDEX idx_predictions_store_product
 ON predictions(store_id, product_id);
 
 
+CREATE INDEX idx_product_attributes_attribute
+ON product_attributes(attribute_id);
+
+
 -- ============================================================
 -- TABLE COMMENTS
 -- ============================================================
@@ -409,6 +454,12 @@ COMMENT ON TABLE products IS
 
 COMMENT ON TABLE inventory IS
 'Store-specific product quantity and price.';
+
+COMMENT ON TABLE attributes IS
+'Predefined product attributes for categorization and search refinement.';
+
+COMMENT ON TABLE product_attributes IS
+'Association table linking products to their assigned attributes.';
 
 
 -- ============================================================

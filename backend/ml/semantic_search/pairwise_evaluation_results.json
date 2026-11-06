@@ -1,0 +1,1810 @@
+{
+    "original_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "fine_tuned_model": "D:\\Work\\Major Project\\Project\\backend\\ml\\semantic_search\\models\\best_model",
+    "test_dataset": "D:\\Work\\Major Project\\Project\\backend\\ml\\semantic_search\\datasets\\test.csv",
+    "product_count": 20,
+    "comparison_count": 54,
+    "unique_query_count": 26,
+    "evaluation_method": "Pairwise cosine similarity comparison using explicit positive-negative test triples.",
+    "original_results": {
+        "metrics": {
+            "total_comparisons": 54,
+            "correct_comparisons": 53,
+            "incorrect_comparisons": 1,
+            "ties": 0,
+            "pairwise_accuracy": 0.9814814814814815,
+            "pairwise_accuracy_percent": 98.14814814814815,
+            "macro_query_accuracy": 0.9871794871794872,
+            "macro_query_accuracy_percent": 98.71794871794873,
+            "average_positive_similarity": 0.37946042556453635,
+            "average_negative_similarity": 0.15029622957593314,
+            "average_similarity_margin": 0.22916419598860321
+        },
+        "query_results": {
+            "cold soda on a hot day": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.3578221797943115
+            },
+            "thanda cold drink for party": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.15760456398129463
+            },
+            "fresh amul doodh": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.290803674608469
+            },
+            "dairy essentials for morning": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.22091378644108772
+            },
+            "sliced bread loaf for breakfast": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.4516213573515415
+            },
+            "double roti packet": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.09575758734717965
+            },
+            "healthy fruit to eat for breakfast": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.2007485255599022
+            },
+            "energy fruit for morning": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.3411198519170284
+            },
+            "paratha makhan spread": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.16375048272311687
+            },
+            "healthy raw fruits": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.20263352990150452
+            },
+            "seasonal organic apples": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.2185037061572075
+            },
+            "juicy ripe tomatoes": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.318928487598896
+            },
+            "aloo for cooking": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.07183280028402805
+            },
+            "butter for frying and sauteing": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.3427917268127203
+            },
+            "black chocolate cream cookies": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.03258548676967621
+            },
+            "cookies for dunking in milk": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.05860965698957443
+            },
+            "namkeen chatpata snack": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.21255704015493393
+            },
+            "crunchy chips packet": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.3078966252505779
+            },
+            "gentle skin cleanser bar": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.12389779835939407
+            },
+            "nahane ka sabun bath soap": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.17990296334028244
+            },
+            "colgat toothpaste for teeth": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.5287913978099823
+            },
+            "toothpaste for teeth cleaning": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.32740431278944016
+            },
+            "laundry detergent powder": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.31950192153453827
+            },
+            "kapde dhone ka powder detergent": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.23626626282930374
+            },
+            "items for making cheese butter toast": {
+                "comparisons": 3,
+                "correct": 3,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.1497259164849917
+            },
+            "weekend movie binge snacks": {
+                "comparisons": 3,
+                "correct": 2,
+                "incorrect": 1,
+                "ties": 0,
+                "accuracy": 0.6666666666666666,
+                "average_margin": 0.13373246043920517
+            }
+        },
+        "individual_comparisons": [
+            {
+                "query": "cold soda on a hot day",
+                "positive_product_id": "11",
+                "positive_product_name": "Coca Cola",
+                "negative_product_id": "3",
+                "negative_product_name": "Amul Taaza Milk",
+                "positive_similarity": 0.4649168848991394,
+                "negative_similarity": 0.11869440972805023,
+                "margin": 0.3462224751710892,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "cold soda on a hot day",
+                "positive_product_id": "12",
+                "positive_product_name": "Pepsi",
+                "negative_product_id": "4",
+                "negative_product_name": "Amul Butter",
+                "positive_similarity": 0.4426286220550537,
+                "negative_similarity": 0.07320673763751984,
+                "margin": 0.3694218844175339,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "thanda cold drink for party",
+                "positive_product_id": "11",
+                "positive_product_name": "Coca Cola",
+                "negative_product_id": "3",
+                "negative_product_name": "Amul Taaza Milk",
+                "positive_similarity": 0.273065447807312,
+                "negative_similarity": 0.16026216745376587,
+                "margin": 0.11280328035354614,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "thanda cold drink for party",
+                "positive_product_id": "12",
+                "positive_product_name": "Pepsi",
+                "negative_product_id": "19",
+                "negative_product_name": "Colgate Toothpaste",
+                "positive_similarity": 0.27292799949645996,
+                "negative_similarity": 0.07052215188741684,
+                "margin": 0.20240584760904312,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "fresh amul doodh",
+                "positive_product_id": "3",
+                "positive_product_name": "Amul Taaza Milk",
+                "negative_product_id": "11",
+                "negative_product_name": "Coca Cola",
+                "positive_similarity": 0.42234519124031067,
+                "negative_similarity": 0.11268102377653122,
+                "margin": 0.30966416746377945,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "fresh amul doodh",
+                "positive_product_id": "3",
+                "positive_product_name": "Amul Taaza Milk",
+                "negative_product_id": "20",
+                "negative_product_name": "Surf Excel Detergent",
+                "positive_similarity": 0.42234519124031067,
+                "negative_similarity": 0.1504020094871521,
+                "margin": 0.27194318175315857,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "dairy essentials for morning",
+                "positive_product_id": "3",
+                "positive_product_name": "Amul Taaza Milk",
+                "negative_product_id": "20",
+                "negative_product_name": "Surf Excel Detergent",
+                "positive_similarity": 0.3554580807685852,
+                "negative_similarity": 0.09698124974966049,
+                "margin": 0.2584768310189247,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "dairy essentials for morning",
+                "positive_product_id": "4",
+                "positive_product_name": "Amul Butter",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.3256714344024658,
+                "negative_similarity": 0.1423206925392151,
+                "margin": 0.18335074186325073,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "sliced bread loaf for breakfast",
+                "positive_product_id": "5",
+                "positive_product_name": "Britannia Bread",
+                "negative_product_id": "12",
+                "negative_product_name": "Pepsi",
+                "positive_similarity": 0.46817174553871155,
+                "negative_similarity": -0.013073720037937164,
+                "margin": 0.4812454655766487,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "sliced bread loaf for breakfast",
+                "positive_product_id": "6",
+                "positive_product_name": "Harvest Brown Bread",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.4180830121040344,
+                "negative_similarity": -0.003914237022399902,
+                "margin": 0.4219972491264343,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "double roti packet",
+                "positive_product_id": "5",
+                "positive_product_name": "Britannia Bread",
+                "negative_product_id": "16",
+                "negative_product_name": "Tomato",
+                "positive_similarity": 0.13390770554542542,
+                "negative_similarity": -0.005853992886841297,
+                "margin": 0.1397616984322667,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "double roti packet",
+                "positive_product_id": "6",
+                "positive_product_name": "Harvest Brown Bread",
+                "negative_product_id": "19",
+                "negative_product_name": "Colgate Toothpaste",
+                "positive_similarity": 0.12072479724884033,
+                "negative_similarity": 0.06897132098674774,
+                "margin": 0.05175347626209259,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "healthy fruit to eat for breakfast",
+                "positive_product_id": "15",
+                "positive_product_name": "Banana",
+                "negative_product_id": "16",
+                "negative_product_name": "Tomato",
+                "positive_similarity": 0.4296613931655884,
+                "negative_similarity": 0.25462445616722107,
+                "margin": 0.1750369369983673,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "healthy fruit to eat for breakfast",
+                "positive_product_id": "15",
+                "positive_product_name": "Banana",
+                "negative_product_id": "10",
+                "negative_product_name": "Kurkure Masala Munch",
+                "positive_similarity": 0.4296613931655884,
+                "negative_similarity": 0.2032012790441513,
+                "margin": 0.22646011412143707,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "energy fruit for morning",
+                "positive_product_id": "15",
+                "positive_product_name": "Banana",
+                "negative_product_id": "11",
+                "negative_product_name": "Coca Cola",
+                "positive_similarity": 0.4592776298522949,
+                "negative_similarity": 0.16726961731910706,
+                "margin": 0.29200801253318787,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "energy fruit for morning",
+                "positive_product_id": "15",
+                "positive_product_name": "Banana",
+                "negative_product_id": "20",
+                "negative_product_name": "Surf Excel Detergent",
+                "positive_similarity": 0.4592776298522949,
+                "negative_similarity": 0.06904593855142593,
+                "margin": 0.390231691300869,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "paratha makhan spread",
+                "positive_product_id": "4",
+                "positive_product_name": "Amul Butter",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.2002539038658142,
+                "negative_similarity": 0.13000136613845825,
+                "margin": 0.07025253772735596,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "paratha makhan spread",
+                "positive_product_id": "4",
+                "positive_product_name": "Amul Butter",
+                "negative_product_id": "11",
+                "negative_product_name": "Coca Cola",
+                "positive_similarity": 0.2002539038658142,
+                "negative_similarity": -0.05699452385306358,
+                "margin": 0.2572484277188778,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "healthy raw fruits",
+                "positive_product_id": "14",
+                "positive_product_name": "Red Apple",
+                "negative_product_id": "17",
+                "negative_product_name": "Potato",
+                "positive_similarity": 0.4346126317977905,
+                "negative_similarity": 0.2793710231781006,
+                "margin": 0.15524160861968994,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "healthy raw fruits",
+                "positive_product_id": "15",
+                "positive_product_name": "Banana",
+                "negative_product_id": "10",
+                "negative_product_name": "Kurkure Masala Munch",
+                "positive_similarity": 0.43292978405952454,
+                "negative_similarity": 0.18290433287620544,
+                "margin": 0.2500254511833191,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "seasonal organic apples",
+                "positive_product_id": "14",
+                "positive_product_name": "Red Apple",
+                "negative_product_id": "15",
+                "negative_product_name": "Banana",
+                "positive_similarity": 0.44489073753356934,
+                "negative_similarity": 0.32458165287971497,
+                "margin": 0.12030908465385437,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "seasonal organic apples",
+                "positive_product_id": "14",
+                "positive_product_name": "Red Apple",
+                "negative_product_id": "2",
+                "negative_product_name": "Cadbury 5 Star Chocolate",
+                "positive_similarity": 0.44489073753356934,
+                "negative_similarity": 0.12819240987300873,
+                "margin": 0.3166983276605606,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "juicy ripe tomatoes",
+                "positive_product_id": "16",
+                "positive_product_name": "Tomato",
+                "negative_product_id": "14",
+                "negative_product_name": "Red Apple",
+                "positive_similarity": 0.5269731283187866,
+                "negative_similarity": 0.32809022068977356,
+                "margin": 0.19888290762901306,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "juicy ripe tomatoes",
+                "positive_product_id": "16",
+                "positive_product_name": "Tomato",
+                "negative_product_id": "4",
+                "negative_product_name": "Amul Butter",
+                "positive_similarity": 0.5269731283187866,
+                "negative_similarity": 0.08799906075000763,
+                "margin": 0.438974067568779,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "aloo for cooking",
+                "positive_product_id": "17",
+                "positive_product_name": "Potato",
+                "negative_product_id": "15",
+                "negative_product_name": "Banana",
+                "positive_similarity": 0.1785547286272049,
+                "negative_similarity": 0.16358985006809235,
+                "margin": 0.014964878559112549,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "aloo for cooking",
+                "positive_product_id": "17",
+                "positive_product_name": "Potato",
+                "negative_product_id": "19",
+                "negative_product_name": "Colgate Toothpaste",
+                "positive_similarity": 0.1785547286272049,
+                "negative_similarity": 0.04985400661826134,
+                "margin": 0.12870072200894356,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "butter for frying and sauteing",
+                "positive_product_id": "4",
+                "positive_product_name": "Amul Butter",
+                "negative_product_id": "3",
+                "negative_product_name": "Amul Taaza Milk",
+                "positive_similarity": 0.43041959404945374,
+                "negative_similarity": 0.1159680038690567,
+                "margin": 0.31445159018039703,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "butter for frying and sauteing",
+                "positive_product_id": "4",
+                "positive_product_name": "Amul Butter",
+                "negative_product_id": "14",
+                "negative_product_name": "Red Apple",
+                "positive_similarity": 0.43041959404945374,
+                "negative_similarity": 0.05928773060441017,
+                "margin": 0.37113186344504356,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "black chocolate cream cookies",
+                "positive_product_id": "8",
+                "positive_product_name": "Oreo Biscuits",
+                "negative_product_id": "7",
+                "negative_product_name": "Parle-G Biscuits",
+                "positive_similarity": 0.35647815465927124,
+                "negative_similarity": 0.33256757259368896,
+                "margin": 0.023910582065582275,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "black chocolate cream cookies",
+                "positive_product_id": "8",
+                "positive_product_name": "Oreo Biscuits",
+                "negative_product_id": "4",
+                "negative_product_name": "Amul Butter",
+                "positive_similarity": 0.35647815465927124,
+                "negative_similarity": 0.3152177631855011,
+                "margin": 0.04126039147377014,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "cookies for dunking in milk",
+                "positive_product_id": "7",
+                "positive_product_name": "Parle-G Biscuits",
+                "negative_product_id": "9",
+                "negative_product_name": "Lays Classic Salted",
+                "positive_similarity": 0.2845838665962219,
+                "negative_similarity": 0.26423168182373047,
+                "margin": 0.020352184772491455,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "cookies for dunking in milk",
+                "positive_product_id": "8",
+                "positive_product_name": "Oreo Biscuits",
+                "negative_product_id": "10",
+                "negative_product_name": "Kurkure Masala Munch",
+                "positive_similarity": 0.252968966960907,
+                "negative_similarity": 0.15610183775424957,
+                "margin": 0.09686712920665741,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "namkeen chatpata snack",
+                "positive_product_id": "10",
+                "positive_product_name": "Kurkure Masala Munch",
+                "negative_product_id": "1",
+                "negative_product_name": "Cadbury Dairy Milk Chocholate",
+                "positive_similarity": 0.42748725414276123,
+                "negative_similarity": 0.2731032371520996,
+                "margin": 0.15438401699066162,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "namkeen chatpata snack",
+                "positive_product_id": "10",
+                "positive_product_name": "Kurkure Masala Munch",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.42748725414276123,
+                "negative_similarity": 0.156757190823555,
+                "margin": 0.27073006331920624,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "crunchy chips packet",
+                "positive_product_id": "9",
+                "positive_product_name": "Lays Classic Salted",
+                "negative_product_id": "16",
+                "negative_product_name": "Tomato",
+                "positive_similarity": 0.4430046081542969,
+                "negative_similarity": 0.06485939770936966,
+                "margin": 0.3781452104449272,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "crunchy chips packet",
+                "positive_product_id": "9",
+                "positive_product_name": "Lays Classic Salted",
+                "negative_product_id": "1",
+                "negative_product_name": "Cadbury Dairy Milk Chocholate",
+                "positive_similarity": 0.4430046081542969,
+                "negative_similarity": 0.20535656809806824,
+                "margin": 0.23764804005622864,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "gentle skin cleanser bar",
+                "positive_product_id": "18",
+                "positive_product_name": "Dove Soap",
+                "negative_product_id": "20",
+                "negative_product_name": "Surf Excel Detergent",
+                "positive_similarity": 0.3006376028060913,
+                "negative_similarity": 0.2789621949195862,
+                "margin": 0.021675407886505127,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "gentle skin cleanser bar",
+                "positive_product_id": "18",
+                "positive_product_name": "Dove Soap",
+                "negative_product_id": "8",
+                "negative_product_name": "Oreo Biscuits",
+                "positive_similarity": 0.3006376028060913,
+                "negative_similarity": 0.07451741397380829,
+                "margin": 0.22612018883228302,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "nahane ka sabun bath soap",
+                "positive_product_id": "18",
+                "positive_product_name": "Dove Soap",
+                "negative_product_id": "20",
+                "negative_product_name": "Surf Excel Detergent",
+                "positive_similarity": 0.38000547885894775,
+                "negative_similarity": 0.31878823041915894,
+                "margin": 0.06121724843978882,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "nahane ka sabun bath soap",
+                "positive_product_id": "18",
+                "positive_product_name": "Dove Soap",
+                "negative_product_id": "16",
+                "negative_product_name": "Tomato",
+                "positive_similarity": 0.38000547885894775,
+                "negative_similarity": 0.08141680061817169,
+                "margin": 0.29858867824077606,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "colgat toothpaste for teeth",
+                "positive_product_id": "19",
+                "positive_product_name": "Colgate Toothpaste",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.6836674213409424,
+                "negative_similarity": 0.22210794687271118,
+                "margin": 0.4615594744682312,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "colgat toothpaste for teeth",
+                "positive_product_id": "19",
+                "positive_product_name": "Colgate Toothpaste",
+                "negative_product_id": "9",
+                "negative_product_name": "Lays Classic Salted",
+                "positive_similarity": 0.6836674213409424,
+                "negative_similarity": 0.08764410018920898,
+                "margin": 0.5960233211517334,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "toothpaste for teeth cleaning",
+                "positive_product_id": "19",
+                "positive_product_name": "Colgate Toothpaste",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.522200345993042,
+                "negative_similarity": 0.1985175907611847,
+                "margin": 0.3236827552318573,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "toothpaste for teeth cleaning",
+                "positive_product_id": "19",
+                "positive_product_name": "Colgate Toothpaste",
+                "negative_product_id": "4",
+                "negative_product_name": "Amul Butter",
+                "positive_similarity": 0.522200345993042,
+                "negative_similarity": 0.19107447564601898,
+                "margin": 0.331125870347023,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "laundry detergent powder",
+                "positive_product_id": "20",
+                "positive_product_name": "Surf Excel Detergent",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.5206034183502197,
+                "negative_similarity": 0.17865890264511108,
+                "margin": 0.34194451570510864,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "laundry detergent powder",
+                "positive_product_id": "20",
+                "positive_product_name": "Surf Excel Detergent",
+                "negative_product_id": "3",
+                "negative_product_name": "Amul Taaza Milk",
+                "positive_similarity": 0.5206034183502197,
+                "negative_similarity": 0.22354409098625183,
+                "margin": 0.2970593273639679,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "kapde dhone ka powder detergent",
+                "positive_product_id": "20",
+                "positive_product_name": "Surf Excel Detergent",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.35589444637298584,
+                "negative_similarity": 0.16404786705970764,
+                "margin": 0.1918465793132782,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "kapde dhone ka powder detergent",
+                "positive_product_id": "20",
+                "positive_product_name": "Surf Excel Detergent",
+                "negative_product_id": "16",
+                "negative_product_name": "Tomato",
+                "positive_similarity": 0.35589444637298584,
+                "negative_similarity": 0.07520850002765656,
+                "margin": 0.2806859463453293,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "items for making cheese butter toast",
+                "positive_product_id": "4",
+                "positive_product_name": "Amul Butter",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.40953874588012695,
+                "negative_similarity": 0.1092524304986,
+                "margin": 0.30028631538152695,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "items for making cheese butter toast",
+                "positive_product_id": "5",
+                "positive_product_name": "Britannia Bread",
+                "negative_product_id": "20",
+                "negative_product_name": "Surf Excel Detergent",
+                "positive_similarity": 0.29994910955429077,
+                "negative_similarity": 0.16674213111400604,
+                "margin": 0.13320697844028473,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "items for making cheese butter toast",
+                "positive_product_id": "6",
+                "positive_product_name": "Harvest Brown Bread",
+                "negative_product_id": "19",
+                "negative_product_name": "Colgate Toothpaste",
+                "positive_similarity": 0.2906431555747986,
+                "negative_similarity": 0.27495869994163513,
+                "margin": 0.015684455633163452,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "weekend movie binge snacks",
+                "positive_product_id": "9",
+                "positive_product_name": "Lays Classic Salted",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.28539690375328064,
+                "negative_similarity": 0.058787815272808075,
+                "margin": 0.22660908848047256,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "weekend movie binge snacks",
+                "positive_product_id": "10",
+                "positive_product_name": "Kurkure Masala Munch",
+                "negative_product_id": "19",
+                "negative_product_name": "Colgate Toothpaste",
+                "positive_similarity": 0.25314903259277344,
+                "negative_similarity": 0.06985887140035629,
+                "margin": 0.18329016119241714,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "weekend movie binge snacks",
+                "positive_product_id": "11",
+                "positive_product_name": "Coca Cola",
+                "negative_product_id": "20",
+                "negative_product_name": "Surf Excel Detergent",
+                "positive_similarity": 0.10682497918605804,
+                "negative_similarity": 0.11552684754133224,
+                "margin": -0.0087018683552742,
+                "outcome": "negative_ranked_higher"
+            }
+        ]
+    },
+    "fine_tuned_results": {
+        "metrics": {
+            "total_comparisons": 54,
+            "correct_comparisons": 54,
+            "incorrect_comparisons": 0,
+            "ties": 0,
+            "pairwise_accuracy": 1.0,
+            "pairwise_accuracy_percent": 100.0,
+            "macro_query_accuracy": 1.0,
+            "macro_query_accuracy_percent": 100.0,
+            "average_positive_similarity": 0.47591361638020585,
+            "average_negative_similarity": 0.11953445627457565,
+            "average_similarity_margin": 0.3563791601056302
+        },
+        "query_results": {
+            "cold soda on a hot day": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.40080512315034866
+            },
+            "thanda cold drink for party": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.20790421217679977
+            },
+            "fresh amul doodh": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.3542630821466446
+            },
+            "dairy essentials for morning": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.48381841741502285
+            },
+            "sliced bread loaf for breakfast": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.6641452293843031
+            },
+            "double roti packet": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.1705103237181902
+            },
+            "healthy fruit to eat for breakfast": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.36489138007164
+            },
+            "energy fruit for morning": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.5984924454241991
+            },
+            "paratha makhan spread": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.3526338543742895
+            },
+            "healthy raw fruits": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.2732509821653366
+            },
+            "seasonal organic apples": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.27624617144465446
+            },
+            "juicy ripe tomatoes": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.3354499712586403
+            },
+            "aloo for cooking": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.19769922737032175
+            },
+            "butter for frying and sauteing": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.4824445825070143
+            },
+            "black chocolate cream cookies": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.06761106848716736
+            },
+            "cookies for dunking in milk": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.0713391974568367
+            },
+            "namkeen chatpata snack": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.39679526910185814
+            },
+            "crunchy chips packet": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.3282890021800995
+            },
+            "gentle skin cleanser bar": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.3036901969462633
+            },
+            "nahane ka sabun bath soap": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.34275939501821995
+            },
+            "colgat toothpaste for teeth": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.708454311825335
+            },
+            "toothpaste for teeth cleaning": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.5513551980257034
+            },
+            "laundry detergent powder": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.4465421289205551
+            },
+            "kapde dhone ka powder detergent": {
+                "comparisons": 2,
+                "correct": 2,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.28306087851524353
+            },
+            "items for making cheese butter toast": {
+                "comparisons": 3,
+                "correct": 3,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.38344891120990116
+            },
+            "weekend movie binge snacks": {
+                "comparisons": 3,
+                "correct": 3,
+                "incorrect": 0,
+                "ties": 0,
+                "accuracy": 1.0,
+                "average_margin": 0.2564082046349843
+            }
+        },
+        "individual_comparisons": [
+            {
+                "query": "cold soda on a hot day",
+                "positive_product_id": "11",
+                "positive_product_name": "Coca Cola",
+                "negative_product_id": "3",
+                "negative_product_name": "Amul Taaza Milk",
+                "positive_similarity": 0.5758721828460693,
+                "negative_similarity": 0.2026868611574173,
+                "margin": 0.37318532168865204,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "cold soda on a hot day",
+                "positive_product_id": "12",
+                "positive_product_name": "Pepsi",
+                "negative_product_id": "4",
+                "negative_product_name": "Amul Butter",
+                "positive_similarity": 0.5393151640892029,
+                "negative_similarity": 0.11089023947715759,
+                "margin": 0.4284249246120453,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "thanda cold drink for party",
+                "positive_product_id": "11",
+                "positive_product_name": "Coca Cola",
+                "negative_product_id": "3",
+                "negative_product_name": "Amul Taaza Milk",
+                "positive_similarity": 0.3380964994430542,
+                "negative_similarity": 0.24928277730941772,
+                "margin": 0.08881372213363647,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "thanda cold drink for party",
+                "positive_product_id": "12",
+                "positive_product_name": "Pepsi",
+                "negative_product_id": "19",
+                "negative_product_name": "Colgate Toothpaste",
+                "positive_similarity": 0.33447930216789246,
+                "negative_similarity": 0.007484599947929382,
+                "margin": 0.3269947022199631,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "fresh amul doodh",
+                "positive_product_id": "3",
+                "positive_product_name": "Amul Taaza Milk",
+                "negative_product_id": "11",
+                "negative_product_name": "Coca Cola",
+                "positive_similarity": 0.412517249584198,
+                "negative_similarity": 0.07280386984348297,
+                "margin": 0.339713379740715,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "fresh amul doodh",
+                "positive_product_id": "3",
+                "positive_product_name": "Amul Taaza Milk",
+                "negative_product_id": "20",
+                "negative_product_name": "Surf Excel Detergent",
+                "positive_similarity": 0.412517249584198,
+                "negative_similarity": 0.04370446503162384,
+                "margin": 0.36881278455257416,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "dairy essentials for morning",
+                "positive_product_id": "3",
+                "positive_product_name": "Amul Taaza Milk",
+                "negative_product_id": "20",
+                "negative_product_name": "Surf Excel Detergent",
+                "positive_similarity": 0.6207836866378784,
+                "negative_similarity": 0.03631051257252693,
+                "margin": 0.5844731740653515,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "dairy essentials for morning",
+                "positive_product_id": "4",
+                "positive_product_name": "Amul Butter",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.4501079320907593,
+                "negative_similarity": 0.06694427132606506,
+                "margin": 0.3831636607646942,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "sliced bread loaf for breakfast",
+                "positive_product_id": "5",
+                "positive_product_name": "Britannia Bread",
+                "negative_product_id": "12",
+                "negative_product_name": "Pepsi",
+                "positive_similarity": 0.6090229749679565,
+                "negative_similarity": -0.04191182926297188,
+                "margin": 0.6509348042309284,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "sliced bread loaf for breakfast",
+                "positive_product_id": "6",
+                "positive_product_name": "Harvest Brown Bread",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.5577331781387329,
+                "negative_similarity": -0.11962247639894485,
+                "margin": 0.6773556545376778,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "double roti packet",
+                "positive_product_id": "5",
+                "positive_product_name": "Britannia Bread",
+                "negative_product_id": "16",
+                "negative_product_name": "Tomato",
+                "positive_similarity": 0.17475123703479767,
+                "negative_similarity": 0.05229466035962105,
+                "margin": 0.12245657667517662,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "double roti packet",
+                "positive_product_id": "6",
+                "positive_product_name": "Harvest Brown Bread",
+                "negative_product_id": "19",
+                "negative_product_name": "Colgate Toothpaste",
+                "positive_similarity": 0.1785011887550354,
+                "negative_similarity": -0.040062882006168365,
+                "margin": 0.21856407076120377,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "healthy fruit to eat for breakfast",
+                "positive_product_id": "15",
+                "positive_product_name": "Banana",
+                "negative_product_id": "16",
+                "negative_product_name": "Tomato",
+                "positive_similarity": 0.6772267818450928,
+                "negative_similarity": 0.3548809289932251,
+                "margin": 0.3223458528518677,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "healthy fruit to eat for breakfast",
+                "positive_product_id": "15",
+                "positive_product_name": "Banana",
+                "negative_product_id": "10",
+                "negative_product_name": "Kurkure Masala Munch",
+                "positive_similarity": 0.6772267818450928,
+                "negative_similarity": 0.2697898745536804,
+                "margin": 0.40743690729141235,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "energy fruit for morning",
+                "positive_product_id": "15",
+                "positive_product_name": "Banana",
+                "negative_product_id": "11",
+                "negative_product_name": "Coca Cola",
+                "positive_similarity": 0.6336920261383057,
+                "negative_similarity": 0.12144111841917038,
+                "margin": 0.5122509077191353,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "energy fruit for morning",
+                "positive_product_id": "15",
+                "positive_product_name": "Banana",
+                "negative_product_id": "20",
+                "negative_product_name": "Surf Excel Detergent",
+                "positive_similarity": 0.6336920261383057,
+                "negative_similarity": -0.05104195699095726,
+                "margin": 0.6847339831292629,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "paratha makhan spread",
+                "positive_product_id": "4",
+                "positive_product_name": "Amul Butter",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.3132895231246948,
+                "negative_similarity": 0.0499652661383152,
+                "margin": 0.2633242569863796,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "paratha makhan spread",
+                "positive_product_id": "4",
+                "positive_product_name": "Amul Butter",
+                "negative_product_id": "11",
+                "negative_product_name": "Coca Cola",
+                "positive_similarity": 0.3132895231246948,
+                "negative_similarity": -0.12865392863750458,
+                "margin": 0.4419434517621994,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "healthy raw fruits",
+                "positive_product_id": "14",
+                "positive_product_name": "Red Apple",
+                "negative_product_id": "17",
+                "negative_product_name": "Potato",
+                "positive_similarity": 0.571605920791626,
+                "negative_similarity": 0.3807399868965149,
+                "margin": 0.19086593389511108,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "healthy raw fruits",
+                "positive_product_id": "15",
+                "positive_product_name": "Banana",
+                "negative_product_id": "10",
+                "negative_product_name": "Kurkure Masala Munch",
+                "positive_similarity": 0.599895715713501,
+                "negative_similarity": 0.24425968527793884,
+                "margin": 0.35563603043556213,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "seasonal organic apples",
+                "positive_product_id": "14",
+                "positive_product_name": "Red Apple",
+                "negative_product_id": "15",
+                "negative_product_name": "Banana",
+                "positive_similarity": 0.5407246351242065,
+                "negative_similarity": 0.44580399990081787,
+                "margin": 0.09492063522338867,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "seasonal organic apples",
+                "positive_product_id": "14",
+                "positive_product_name": "Red Apple",
+                "negative_product_id": "2",
+                "negative_product_name": "Cadbury 5 Star Chocolate",
+                "positive_similarity": 0.5407246351242065,
+                "negative_similarity": 0.08315292745828629,
+                "margin": 0.45757170766592026,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "juicy ripe tomatoes",
+                "positive_product_id": "16",
+                "positive_product_name": "Tomato",
+                "negative_product_id": "14",
+                "negative_product_name": "Red Apple",
+                "positive_similarity": 0.6144006252288818,
+                "negative_similarity": 0.4059857130050659,
+                "margin": 0.20841491222381592,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "juicy ripe tomatoes",
+                "positive_product_id": "16",
+                "positive_product_name": "Tomato",
+                "negative_product_id": "4",
+                "negative_product_name": "Amul Butter",
+                "positive_similarity": 0.6144006252288818,
+                "negative_similarity": 0.15191559493541718,
+                "margin": 0.46248503029346466,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "aloo for cooking",
+                "positive_product_id": "17",
+                "positive_product_name": "Potato",
+                "negative_product_id": "15",
+                "negative_product_name": "Banana",
+                "positive_similarity": 0.27528607845306396,
+                "negative_similarity": 0.17886769771575928,
+                "margin": 0.09641838073730469,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "aloo for cooking",
+                "positive_product_id": "17",
+                "positive_product_name": "Potato",
+                "negative_product_id": "19",
+                "negative_product_name": "Colgate Toothpaste",
+                "positive_similarity": 0.27528607845306396,
+                "negative_similarity": -0.02369399555027485,
+                "margin": 0.2989800740033388,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "butter for frying and sauteing",
+                "positive_product_id": "4",
+                "positive_product_name": "Amul Butter",
+                "negative_product_id": "3",
+                "negative_product_name": "Amul Taaza Milk",
+                "positive_similarity": 0.5939570665359497,
+                "negative_similarity": 0.18145863711833954,
+                "margin": 0.41249842941761017,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "butter for frying and sauteing",
+                "positive_product_id": "4",
+                "positive_product_name": "Amul Butter",
+                "negative_product_id": "14",
+                "negative_product_name": "Red Apple",
+                "positive_similarity": 0.5939570665359497,
+                "negative_similarity": 0.041566330939531326,
+                "margin": 0.5523907355964184,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "black chocolate cream cookies",
+                "positive_product_id": "8",
+                "positive_product_name": "Oreo Biscuits",
+                "negative_product_id": "7",
+                "negative_product_name": "Parle-G Biscuits",
+                "positive_similarity": 0.4167192578315735,
+                "negative_similarity": 0.360514760017395,
+                "margin": 0.05620449781417847,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "black chocolate cream cookies",
+                "positive_product_id": "8",
+                "positive_product_name": "Oreo Biscuits",
+                "negative_product_id": "4",
+                "negative_product_name": "Amul Butter",
+                "positive_similarity": 0.4167192578315735,
+                "negative_similarity": 0.33770161867141724,
+                "margin": 0.07901763916015625,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "cookies for dunking in milk",
+                "positive_product_id": "7",
+                "positive_product_name": "Parle-G Biscuits",
+                "negative_product_id": "9",
+                "negative_product_name": "Lays Classic Salted",
+                "positive_similarity": 0.3065566420555115,
+                "negative_similarity": 0.2564443051815033,
+                "margin": 0.05011233687400818,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "cookies for dunking in milk",
+                "positive_product_id": "8",
+                "positive_product_name": "Oreo Biscuits",
+                "negative_product_id": "10",
+                "negative_product_name": "Kurkure Masala Munch",
+                "positive_similarity": 0.27851948142051697,
+                "negative_similarity": 0.18595342338085175,
+                "margin": 0.09256605803966522,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "namkeen chatpata snack",
+                "positive_product_id": "10",
+                "positive_product_name": "Kurkure Masala Munch",
+                "negative_product_id": "1",
+                "negative_product_name": "Cadbury Dairy Milk Chocholate",
+                "positive_similarity": 0.5493943691253662,
+                "negative_similarity": 0.29874688386917114,
+                "margin": 0.25064748525619507,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "namkeen chatpata snack",
+                "positive_product_id": "10",
+                "positive_product_name": "Kurkure Masala Munch",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.5493943691253662,
+                "negative_similarity": 0.006451316177845001,
+                "margin": 0.5429430529475212,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "crunchy chips packet",
+                "positive_product_id": "9",
+                "positive_product_name": "Lays Classic Salted",
+                "negative_product_id": "16",
+                "negative_product_name": "Tomato",
+                "positive_similarity": 0.4670667350292206,
+                "negative_similarity": 0.0795154869556427,
+                "margin": 0.3875512480735779,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "crunchy chips packet",
+                "positive_product_id": "9",
+                "positive_product_name": "Lays Classic Salted",
+                "negative_product_id": "1",
+                "negative_product_name": "Cadbury Dairy Milk Chocholate",
+                "positive_similarity": 0.4670667350292206,
+                "negative_similarity": 0.1980399787425995,
+                "margin": 0.2690267562866211,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "gentle skin cleanser bar",
+                "positive_product_id": "18",
+                "positive_product_name": "Dove Soap",
+                "negative_product_id": "20",
+                "negative_product_name": "Surf Excel Detergent",
+                "positive_similarity": 0.398505836725235,
+                "negative_similarity": 0.19248637557029724,
+                "margin": 0.20601946115493774,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "gentle skin cleanser bar",
+                "positive_product_id": "18",
+                "positive_product_name": "Dove Soap",
+                "negative_product_id": "8",
+                "negative_product_name": "Oreo Biscuits",
+                "positive_similarity": 0.398505836725235,
+                "negative_similarity": -0.002855096012353897,
+                "margin": 0.4013609327375889,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "nahane ka sabun bath soap",
+                "positive_product_id": "18",
+                "positive_product_name": "Dove Soap",
+                "negative_product_id": "20",
+                "negative_product_name": "Surf Excel Detergent",
+                "positive_similarity": 0.4619647264480591,
+                "negative_similarity": 0.2149074822664261,
+                "margin": 0.247057244181633,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "nahane ka sabun bath soap",
+                "positive_product_id": "18",
+                "positive_product_name": "Dove Soap",
+                "negative_product_id": "16",
+                "negative_product_name": "Tomato",
+                "positive_similarity": 0.4619647264480591,
+                "negative_similarity": 0.023503180593252182,
+                "margin": 0.4384615458548069,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "colgat toothpaste for teeth",
+                "positive_product_id": "19",
+                "positive_product_name": "Colgate Toothpaste",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.7597845792770386,
+                "negative_similarity": 0.1177038624882698,
+                "margin": 0.6420807167887688,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "colgat toothpaste for teeth",
+                "positive_product_id": "19",
+                "positive_product_name": "Colgate Toothpaste",
+                "negative_product_id": "9",
+                "negative_product_name": "Lays Classic Salted",
+                "positive_similarity": 0.7597845792770386,
+                "negative_similarity": -0.015043327584862709,
+                "margin": 0.7748279068619013,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "toothpaste for teeth cleaning",
+                "positive_product_id": "19",
+                "positive_product_name": "Colgate Toothpaste",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.6893960237503052,
+                "negative_similarity": 0.1488288789987564,
+                "margin": 0.5405671447515488,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "toothpaste for teeth cleaning",
+                "positive_product_id": "19",
+                "positive_product_name": "Colgate Toothpaste",
+                "negative_product_id": "4",
+                "negative_product_name": "Amul Butter",
+                "positive_similarity": 0.6893960237503052,
+                "negative_similarity": 0.12725277245044708,
+                "margin": 0.5621432512998581,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "laundry detergent powder",
+                "positive_product_id": "20",
+                "positive_product_name": "Surf Excel Detergent",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.6209902763366699,
+                "negative_similarity": 0.11427408456802368,
+                "margin": 0.5067161917686462,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "laundry detergent powder",
+                "positive_product_id": "20",
+                "positive_product_name": "Surf Excel Detergent",
+                "negative_product_id": "3",
+                "negative_product_name": "Amul Taaza Milk",
+                "positive_similarity": 0.6209902763366699,
+                "negative_similarity": 0.23462221026420593,
+                "margin": 0.386368066072464,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "kapde dhone ka powder detergent",
+                "positive_product_id": "20",
+                "positive_product_name": "Surf Excel Detergent",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.3595312237739563,
+                "negative_similarity": 0.10021394491195679,
+                "margin": 0.2593172788619995,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "kapde dhone ka powder detergent",
+                "positive_product_id": "20",
+                "positive_product_name": "Surf Excel Detergent",
+                "negative_product_id": "16",
+                "negative_product_name": "Tomato",
+                "positive_similarity": 0.3595312237739563,
+                "negative_similarity": 0.05272674560546875,
+                "margin": 0.30680447816848755,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "items for making cheese butter toast",
+                "positive_product_id": "4",
+                "positive_product_name": "Amul Butter",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.5856485962867737,
+                "negative_similarity": -0.014537133276462555,
+                "margin": 0.6001857295632362,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "items for making cheese butter toast",
+                "positive_product_id": "5",
+                "positive_product_name": "Britannia Bread",
+                "negative_product_id": "20",
+                "negative_product_name": "Surf Excel Detergent",
+                "positive_similarity": 0.3699389100074768,
+                "negative_similarity": -0.010010197758674622,
+                "margin": 0.37994910776615143,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "items for making cheese butter toast",
+                "positive_product_id": "6",
+                "positive_product_name": "Harvest Brown Bread",
+                "negative_product_id": "19",
+                "negative_product_name": "Colgate Toothpaste",
+                "positive_similarity": 0.3442484140396118,
+                "negative_similarity": 0.17403651773929596,
+                "margin": 0.17021189630031586,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "weekend movie binge snacks",
+                "positive_product_id": "9",
+                "positive_product_name": "Lays Classic Salted",
+                "negative_product_id": "18",
+                "negative_product_name": "Dove Soap",
+                "positive_similarity": 0.3063089847564697,
+                "negative_similarity": -0.033554114401340485,
+                "margin": 0.3398630991578102,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "weekend movie binge snacks",
+                "positive_product_id": "10",
+                "positive_product_name": "Kurkure Masala Munch",
+                "negative_product_id": "19",
+                "negative_product_name": "Colgate Toothpaste",
+                "positive_similarity": 0.34145426750183105,
+                "negative_similarity": -0.026449285447597504,
+                "margin": 0.36790355294942856,
+                "outcome": "positive_ranked_higher"
+            },
+            {
+                "query": "weekend movie binge snacks",
+                "positive_product_id": "11",
+                "positive_product_name": "Coca Cola",
+                "negative_product_id": "20",
+                "negative_product_name": "Surf Excel Detergent",
+                "positive_similarity": 0.04760097712278366,
+                "negative_similarity": -0.013856984674930573,
+                "margin": 0.06145796179771423,
+                "outcome": "positive_ranked_higher"
+            }
+        ]
+    },
+    "comparison": {
+        "pairwise_accuracy": {
+            "original": 0.9814814814814815,
+            "fine_tuned": 1.0,
+            "difference": 0.01851851851851849
+        },
+        "macro_query_accuracy": {
+            "original": 0.9871794871794872,
+            "fine_tuned": 1.0,
+            "difference": 0.012820512820512775
+        },
+        "average_positive_similarity": {
+            "original": 0.37946042556453635,
+            "fine_tuned": 0.47591361638020585,
+            "difference": 0.0964531908156695
+        },
+        "average_negative_similarity": {
+            "original": 0.15029622957593314,
+            "fine_tuned": 0.11953445627457565,
+            "difference": -0.030761773301357487
+        },
+        "average_similarity_margin": {
+            "original": 0.22916419598860321,
+            "fine_tuned": 0.3563791601056302,
+            "difference": 0.12721496411702699
+        }
+    },
+    "query_comparison": {
+        "cold soda on a hot day": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "thanda cold drink for party": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "fresh amul doodh": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "dairy essentials for morning": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "sliced bread loaf for breakfast": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "double roti packet": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "healthy fruit to eat for breakfast": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "energy fruit for morning": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "paratha makhan spread": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "healthy raw fruits": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "seasonal organic apples": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "juicy ripe tomatoes": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "aloo for cooking": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "butter for frying and sauteing": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "black chocolate cream cookies": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "cookies for dunking in milk": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "namkeen chatpata snack": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "crunchy chips packet": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "gentle skin cleanser bar": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "nahane ka sabun bath soap": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "colgat toothpaste for teeth": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "toothpaste for teeth cleaning": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "laundry detergent powder": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "kapde dhone ka powder detergent": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "items for making cheese butter toast": {
+            "original_accuracy": 1.0,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.0
+        },
+        "weekend movie binge snacks": {
+            "original_accuracy": 0.6666666666666666,
+            "fine_tuned_accuracy": 1.0,
+            "difference": 0.33333333333333337
+        }
+    }
+}

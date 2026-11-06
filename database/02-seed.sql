@@ -4,6 +4,23 @@
 
 BEGIN;
 
+-- Reset all tables and restart all sequence identities to 1
+TRUNCATE TABLE 
+    sale_items,
+    sales,
+    predictions,
+    inventory_uploads,
+    inventory,
+    product_attributes,
+    products,
+    attributes,
+    stores,
+    categories,
+    search_history,
+    users
+RESTART IDENTITY CASCADE;
+
+
 
 -- ============================================================
 -- USERS
@@ -146,14 +163,14 @@ INSERT INTO products
 VALUES
 
 (
-    'Cadbury Dairy Milk Chocolate',
+    'Cadbury Dairy Milk Chocholate',
     'cadbury dairy milk chocolate',
     'Milk chocolate bar',
     3
 ),
 
 (
-    'Cadbury 5 Star',
+    'Cadbury 5 Star Chocolate',
     'cadbury 5 star',
     'Caramel chocolate bar',
     3
@@ -284,6 +301,100 @@ VALUES
     'Laundry detergent',
     8
 );
+
+
+
+
+-- =========================================================
+-- PRODUCT ATTRIBUTES
+-- =========================================================
+
+INSERT INTO attributes (id, name, description)
+VALUES
+(1, 'drinkable', 'Products suitable for drinking'),
+(2, 'breakfast', 'Products commonly consumed during breakfast'),
+(3, 'dairy-product', 'Products made from milk'),
+(4, 'spread', 'Products used as spreads'),
+(5, 'cooking', 'Products used in cooking or food preparation'),
+(6, 'bakery-product', 'Products made through baking'),
+(7, 'bread', 'Bread and bread-based products'),
+(8, 'whole-grain', 'Products made using whole grains'),
+(9, 'biscuit', 'Biscuit and cookie products'),
+(10, 'sweet', 'Sweet-tasting food products'),
+(11, 'chocolate', 'Chocolate-based products'),
+(12, 'snack', 'Products commonly consumed as snacks'),
+(13, 'savory-snack', 'Savory or salty snack products'),
+(14, 'cold-drink', 'Cold beverage products'),
+(15, 'juice', 'Fruit juice products'),
+(16, 'fruit', 'Fruit products'),
+(17, 'vegetable', 'Vegetable products'),
+(18, 'fresh-produce', 'Fresh fruits and vegetables'),
+(19, 'personal-care', 'Personal hygiene and care products'),
+(20, 'bathing', 'Products used for bathing'),
+(21, 'oral-care', 'Products used for oral hygiene'),
+(22, 'laundry-care', 'Products used for washing clothes');
+
+
+
+
+-- INSERT INTO attributes (id, name, description, created_at)
+-- VALUES
+-- (1, 'drinkable', 'Products suitable for drinking', '2026-11-05 06:43:49.557713+00'),
+-- (2, 'breakfast', 'Products commonly consumed during breakfast', '2026-11-05 06:43:49.557713+00'),
+-- (3, 'dairy-product', 'Products made from milk', '2026-11-05 06:43:49.557713+00'),
+-- (4, 'spread', 'Products used as spreads', '2026-11-05 06:43:49.557713+00'),
+-- (5, 'cooking', 'Products used in cooking or food preparation', '2026-11-05 06:43:49.557713+00'),
+-- (6, 'bakery-product', 'Products made through baking', '2026-11-05 06:43:49.557713+00'),
+-- (7, 'bread', 'Bread and bread-based products', '2026-11-05 06:43:49.557713+00'),
+-- (8, 'whole-grain', 'Products made using whole grains', '2026-11-05 06:43:49.557713+00'),
+-- (9, 'biscuit', 'Biscuit and cookie products', '2026-11-05 06:43:49.557713+00'),
+-- (10, 'sweet', 'Sweet-tasting food products', '2026-11-05 06:43:49.557713+00'),
+-- (11, 'chocolate', 'Chocolate-based products', '2026-11-05 06:43:49.557713+00'),
+-- (12, 'snack', 'Products commonly consumed as snacks', '2026-11-05 06:43:49.557713+00'),
+-- (13, 'savory-snack', 'Savory or salty snack products', '2026-11-05 06:43:49.557713+00'),
+-- (14, 'cold-drink', 'Cold beverage products', '2026-11-05 06:43:49.557713+00'),
+-- (15, 'juice', 'Fruit juice products', '2026-11-05 06:43:49.557713+00'),
+-- (16, 'fruit', 'Fruit products', '2026-11-05 06:43:49.557713+00'),
+-- (17, 'vegetable', 'Vegetable products', '2026-11-05 06:43:49.557713+00'),
+-- (18, 'fresh-produce', 'Fresh fruits and vegetables', '2026-11-05 06:43:49.557713+00'),
+-- (19, 'personal-care', 'Personal hygiene and care products', '2026-11-05 06:43:49.557713+00'),
+-- (20, 'bathing', 'Products used for bathing', '2026-11-05 06:43:49.557713+00'),
+-- (21, 'oral-care', 'Products used for oral hygiene', '2026-11-05 06:43:49.557713+00'),
+-- (22, 'laundry-care', 'Products used for washing clothes', '2026-11-05 06:43:49.557713+00');
+
+
+
+SELECT setval('attributes_id_seq', (SELECT MAX(id) FROM attributes));
+
+
+-- =========================================================
+-- PRODUCT ATTRIBUTE MAPPINGS
+-- =========================================================
+
+INSERT INTO product_attributes (product_id, attribute_id)
+VALUES
+(1,3), (1,10), (1,11), (1,12),
+(2,10), (2,11), (2,12),
+(3,1), (3,2), (3,3),
+(4,3), (4,4), (4,5),
+(5,2), (5,6), (5,7),
+(6,2), (6,6), (6,7), (6,8),
+(7,2), (7,9), (7,10), (7,12),
+(8,9), (8,10), (8,11), (8,12),
+(9,12), (9,13),
+(10,12), (10,13),
+(11,1), (11,14),
+(12,1), (12,14),
+(13,1), (13,15), (13,16),
+(14,16), (14,18),
+(15,2), (15,16), (15,18),
+(16,5), (16,17), (16,18),
+(17,5), (17,17), (17,18),
+(18,19), (18,20),
+(19,19), (19,21),
+(20,22);
+
+
 
 
 -- ============================================================
@@ -566,4 +677,8 @@ SELECT 'search_history', COUNT(*) FROM search_history
 UNION ALL
 SELECT 'inventory_uploads', COUNT(*) FROM inventory_uploads
 UNION ALL
-SELECT 'predictions', COUNT(*) FROM predictions;
+SELECT 'predictions', COUNT(*) FROM predictions
+UNION ALL
+SELECT 'attributes', COUNT(*) FROM attributes
+UNION ALL
+SELECT 'product_attributes', COUNT(*) FROM product_attributes;

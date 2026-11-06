@@ -6,15 +6,16 @@ from apis.v1.schemas.search import NormalizedQuery
 CURRENCY_PATTERN = r"(?:₹|rs\.?|inr|rupee|rupees|ruppee|ruppees)"
 
 FILLER_PHRASES = [
+    "please show me",
+    "please give me",
+    "please find me",
+    "please find",
     "show me",
     "find me",
     "find",
     "i want",
     "i need",
     "give me",
-    "please find",
-    "please show me",
-    "please give me",
 ]
 
 
@@ -114,7 +115,7 @@ def extract_radius(text: str) -> tuple[str, float | None]:
         r"\s*"
         r"(\d+(?:\.\d+)?)"
         r"\s*"
-        r"(km|kilometer|kilometers|mi|mile|miles)"
+        r"(kilometers|kilometer|km|miles|mile|mi)"
     )
 
     match = re.search(pattern, text)
@@ -210,5 +211,6 @@ def normalize_query(text: str) -> NormalizedQuery:
     )
 
 
-result = normalize_query("chocolate within 5 km")
-print(result)
+if __name__ == "__main__":
+    result = normalize_query("chocolate within 5 km")
+    print(result)

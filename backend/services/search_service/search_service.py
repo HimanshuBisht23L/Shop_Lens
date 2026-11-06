@@ -1,105 +1,120 @@
-from sqlalchemy import select, func
+
+from sqlalchemy import select, func, case
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from db.models.product import Product
 from db.models.inventory import Inventory
 from db.models.store import Store
 
-from apis.v1.schemas.search import UIFilters
-
 from services.search_flow.normalizer import normalize_query
 from services.search_flow.filter_resolver import resolve_filters
 from services.search_flow.keyword_search import keyword_search
 from services.search_flow.fuzzy_search import fuzzy_search
+from services.search_flow.semantic_search import semantic_search
+from services.search_flow.candidate_ranker import rank_candidates
 from services.search_flow.geo import user_point
 
 
 async def search_products(
     session: AsyncSession,
     query: str,
-    ui_filters: UIFilters,
+    ui_filters,
     latitude: float,
     longitude: float,
     limit: int = 20,
 ):
-
-    # Normalize natural-language query
+    # --------------------------------------------------
+    # 1. Normalize query
+    # --------------------------------------------------
     parsed_query = normalize_query(query)
 
+    # --------------------------------------------------
+    # 2. Resolve UI filters and natural-language filters
+    # --------------------------------------------------
+    final_filters = resolve_filters(parsed_query, ui_filters)
 
-    # Resolve UI filters vs query filters
-    final_filters = resolve_filters(
-        parsed_query,
-        ui_filters,
-    )
-
-
-    # Keyword candidates
-    keyword_products = await keyword_search(
-        session=session,
-        query=parsed_query.query,
-        limit=limit,
-    )
-
-
-    # Fuzzy candidates
-    fuzzy_results = await fuzzy_search(
-        session=session,
-        query=parsed_query.query,
-        limit=limit,
-    )
-
-
-    # Combine candidates + scores
-    candidate_scores: dict[int, float] = {}
-
-    # Keyword match gets score 1.0
-    for product in keyword_products:
-
-        candidate_scores[product.id] = 1.0
-
-
-    # Fuzzy match gets similarity score
-    for product, similarity in fuzzy_results:
-
-        similarity = float(similarity)
-
-        existing_score = candidate_scores.get(
-            product.id,
-            0.0,
-        )
-
-        candidate_scores[product.id] = max(
-            existing_score,
-            similarity,
-        )
-
-
-    # No candidates
-    if not candidate_scores:
-
+    if not parsed_query.query:
         return {
             "query": parsed_query.query,
             "filters": final_filters.model_dump(),
             "results": [],
         }
 
+    # Retrieve more candidates than the final result limit.
+    # This reduces the chance that unavailable products
+    # prevent relevant nearby products from being returned.
+    retrieval_limit = max(limit * 3, 60)
 
-    # User location
-    point = user_point(
-        latitude,
-        longitude,
+    # --------------------------------------------------
+    # 3. Keyword search
+    # --------------------------------------------------
+    keyword_products = await keyword_search(
+        session=session,
+        query=parsed_query.query,
+        limit=retrieval_limit,
     )
 
+    # --------------------------------------------------
+    # 4. Fuzzy search (pg_trgm)
+    # --------------------------------------------------
+    fuzzy_results = await fuzzy_search(
+        session=session,
+        query=parsed_query.query,
+        limit=retrieval_limit,
+    )
 
-    # Distance expression
+    # --------------------------------------------------
+    # 5. Semantic search (Sentence Transformer + pgvector)
+    # --------------------------------------------------
+    semantic_results = await semantic_search(
+        session=session,
+        query=parsed_query.query,
+        limit=retrieval_limit,
+    )
+
+    # --------------------------------------------------
+    # 6. Merge and rank candidates
+    # --------------------------------------------------
+    candidate_items = rank_candidates(
+        query=parsed_query.query,
+        keyword_products=keyword_products,
+        fuzzy_results=fuzzy_results,
+        semantic_results=semantic_results,
+        limit=retrieval_limit,
+    )
+
+    candidate_scores = {
+        item.product_id: item.final_score
+        for item in candidate_items
+    }
+
+    if not candidate_scores:
+        return {
+            "query": parsed_query.query,
+            "filters": final_filters.model_dump(),
+            "results": [],
+        }
+
+    # --------------------------------------------------
+    # 7. User location and PostGIS distance
+    # --------------------------------------------------
+    point = user_point(latitude, longitude)
+
     distance_expr = func.ST_Distance(
         Store.location,
         point,
     )
 
+    # Convert candidate relevance scores into a SQL ordering expression.
+    relevance_order = case(
+        candidate_scores,
+        value=Product.id,
+        else_=0.0,
+    )
 
-    # Product → Inventory → Store
+    # --------------------------------------------------
+    # 8. Product + Inventory + Store query
+    # --------------------------------------------------
     stmt = (
         select(
             Product,
@@ -116,40 +131,32 @@ async def search_products(
             Store.id == Inventory.store_id,
         )
         .where(
-            Product.id.in_(
-                candidate_scores.keys()
-            )
-        )
-        .where(
+            Product.id.in_(candidate_scores.keys()),
+            Store.location.is_not(None),
             Inventory.is_available.is_(True),
             Inventory.quantity > 0,
             Store.is_active.is_(True),
         )
     )
 
-
-    # Price filters
+    # --------------------------------------------------
+    # 9. Apply price filters
+    # --------------------------------------------------
     if final_filters.min_price is not None:
-
         stmt = stmt.where(
             Inventory.price >= final_filters.min_price
         )
 
-
     if final_filters.max_price is not None:
-
         stmt = stmt.where(
             Inventory.price <= final_filters.max_price
         )
 
-
-
-    # Optional radius filter
+    # --------------------------------------------------
+    # 10. Apply optional radius filter
+    # --------------------------------------------------
     if final_filters.radius_km is not None:
-
-        radius_meters = (
-            final_filters.radius_km * 1000
-        )
+        radius_meters = final_filters.radius_km * 1000
 
         stmt = stmt.where(
             func.ST_DWithin(
@@ -159,64 +166,51 @@ async def search_products(
             )
         )
 
-
-    # Always sort by nearest store
-    stmt = stmt.order_by(
-        distance_expr.asc()
+    # --------------------------------------------------
+    # 11. Relevance first, nearest store second
+    # --------------------------------------------------
+    stmt = (
+        stmt
+        .order_by(
+            relevance_order.desc(),
+            distance_expr.asc(),
+        )
+        .limit(limit)
     )
 
-
-    # Limit final results
-    stmt = stmt.limit(limit)
-
-
-    # Execute query
     result = await session.execute(stmt)
-
     rows = result.all()
 
-
-    # Build response
+    # --------------------------------------------------
+    # 12. Build API response
+    # --------------------------------------------------
     results = []
 
     for row in rows:
+        product, inventory, store, distance_m = row
 
-        product = row[0]
-        inventory = row[1]
-        store = row[2]
-        distance_m = row[3]
+        results.append({
+            "product_id": product.id,
+            "product_name": product.name,
+            "description": product.description,
+            "price": float(inventory.price),
+            "quantity": inventory.quantity,
+            "is_available": inventory.is_available,
+            "store": {
+                "id": store.id,
+                "name": store.name,
+                "address": store.address,
+            },
+            "distance_km": round(
+                float(distance_m) / 1000,
+                2,
+            ),
+            "score": round(
+                candidate_scores.get(product.id, 0.0),
+                4,
+            ),
+        })
 
-
-        results.append(
-            {
-                "product_id": product.id,
-                "product_name": product.name,
-                "description": product.description,
-
-                "price": float(inventory.price),
-                "quantity": inventory.quantity,
-                "is_available": inventory.is_available,
-
-                "store": {
-                    "id": store.id,
-                    "name": store.name,
-                    "address": store.address,
-                },
-
-                "distance_km": round(
-                    float(distance_m) / 1000,
-                    2,
-                ),
-
-                "score": candidate_scores.get(
-                    product.id,
-                    0.0,
-                ),
-            }
-        )
-
-
-    # Return final response
     return {
         "query": parsed_query.query,
         "filters": final_filters.model_dump(),

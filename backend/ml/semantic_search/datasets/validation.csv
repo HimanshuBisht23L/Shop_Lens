@@ -1,0 +1,61 @@
+query,positive_product_id,positive_product_name,negative_product_id,negative_product_name
+chilled cold drinks,11,Coca Cola,3,Amul Taaza Milk
+chilled cold drinks,12,Pepsi,16,Tomato
+something to drink,11,Coca Cola,18,Dove Soap
+something to drink,12,Pepsi,20,Surf Excel Detergent
+something to drink,13,Real Mixed Fruit Juice,17,Potato
+something to drink,3,Amul Taaza Milk,19,Colgate Toothpaste
+daily dairy products,3,Amul Taaza Milk,10,Kurkure Masala Munch
+daily dairy products,4,Amul Butter,19,Colgate Toothpaste
+fresh milk packet,3,Amul Taaza Milk,11,Coca Cola
+fresh milk packet,3,Amul Taaza Milk,9,Lays Classic Salted
+whole wheat brown bread loaf,6,Harvest Brown Bread,5,Britannia Bread
+whole wheat brown bread loaf,6,Harvest Brown Bread,1,Cadbury Dairy Milk Chocholate
+bread for toast,5,Britannia Bread,4,Amul Butter
+bread for toast,6,Harvest Brown Bread,18,Dove Soap
+morning tea biscuits,7,Parle-G Biscuits,9,Lays Classic Salted
+morning tea biscuits,7,Parle-G Biscuits,16,Tomato
+chai ke sath biscuit,7,Parle-G Biscuits,10,Kurkure Masala Munch
+chai ke sath biscuit,7,Parle-G Biscuits,18,Dove Soap
+butter spread for toast,4,Amul Butter,5,Britannia Bread
+butter spread for toast,4,Amul Butter,12,Pepsi
+fresh fruits to eat,14,Red Apple,13,Real Mixed Fruit Juice
+fresh fruits to eat,15,Banana,16,Tomato
+sweet ripe bananas,15,Banana,14,Red Apple
+sweet ripe bananas,15,Banana,9,Lays Classic Salted
+tamatar for curry,16,Tomato,14,Red Apple
+tamatar for curry,16,Tomato,18,Dove Soap
+red tomatoes for salad and gravy,16,Tomato,14,Red Apple
+red tomatoes for salad and gravy,16,Tomato,8,Oreo Biscuits
+ingredients to cook dinner,4,Amul Butter,12,Pepsi
+ingredients to cook dinner,16,Tomato,18,Dove Soap
+ingredients to cook dinner,17,Potato,19,Colgate Toothpaste
+caramel filled chocolate,2,Cadbury 5 Star Chocolate,1,Cadbury Dairy Milk Chocholate
+caramel filled chocolate,2,Cadbury 5 Star Chocolate,9,Lays Classic Salted
+something sweet to eat,1,Cadbury Dairy Milk Chocholate,9,Lays Classic Salted
+something sweet to eat,2,Cadbury 5 Star Chocolate,10,Kurkure Masala Munch
+something sweet to eat,7,Parle-G Biscuits,17,Potato
+something sweet to eat,8,Oreo Biscuits,19,Colgate Toothpaste
+spicy crunchy snack,10,Kurkure Masala Munch,9,Lays Classic Salted
+spicy crunchy snack,10,Kurkure Masala Munch,8,Oreo Biscuits
+snack for movie night,9,Lays Classic Salted,18,Dove Soap
+snack for movie night,10,Kurkure Masala Munch,20,Surf Excel Detergent
+soap for bathing,18,Dove Soap,20,Surf Excel Detergent
+soap for bathing,18,Dove Soap,10,Kurkure Masala Munch
+daily personal hygiene soap,18,Dove Soap,20,Surf Excel Detergent
+daily personal hygiene soap,18,Dove Soap,12,Pepsi
+oral care products,19,Colgate Toothpaste,18,Dove Soap
+oral care products,19,Colgate Toothpaste,20,Surf Excel Detergent
+cavity protection toothpaste,19,Colgate Toothpaste,7,Parle-G Biscuits
+cavity protection toothpaste,19,Colgate Toothpaste,18,Dove Soap
+detergent for bucket or washing machine,20,Surf Excel Detergent,18,Dove Soap
+detergent for bucket or washing machine,20,Surf Excel Detergent,14,Red Apple
+washing powder for clothes,20,Surf Excel Detergent,18,Dove Soap
+washing powder for clothes,20,Surf Excel Detergent,19,Colgate Toothpaste
+daily kitchen essentials,3,Amul Taaza Milk,18,Dove Soap
+daily kitchen essentials,4,Amul Butter,20,Surf Excel Detergent
+daily kitchen essentials,5,Britannia Bread,19,Colgate Toothpaste
+daily kitchen essentials,16,Tomato,11,Coca Cola
+daily kitchen essentials,17,Potato,18,Dove Soap
+sweet and savory snack combo,1,Cadbury Dairy Milk Chocholate,18,Dove Soap
+sweet and savory snack combo,9,Lays Classic Salted,20,Surf Excel Detergent

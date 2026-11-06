@@ -1,0 +1,53 @@
+model,query,judged_positives,judged_negatives,first_relevant_product,pairwise_accuracy,ndcg@10
+original,cold soda on a hot day,2,4,Coca Cola,1.0,1.0
+original,thanda cold drink for party,2,6,Coca Cola,1.0,1.0
+original,fresh amul doodh,1,6,Amul Taaza Milk,1.0,1.0
+original,dairy essentials for morning,2,7,Amul Taaza Milk,1.0,1.0
+original,sliced bread loaf for breakfast,2,7,Britannia Bread,1.0,1.0
+original,double roti packet,2,5,Britannia Bread,0.9,0.9197207891481876
+original,healthy fruit to eat for breakfast,2,4,Banana,1.0,1.0
+original,energy fruit for morning,1,6,Banana,1.0,1.0
+original,paratha makhan spread,1,7,Amul Butter,1.0,1.0
+original,healthy raw fruits,2,5,Red Apple,1.0,1.0
+original,seasonal organic apples,1,6,Red Apple,1.0,1.0
+original,juicy ripe tomatoes,1,5,Tomato,1.0,1.0
+original,aloo for cooking,1,8,Potato,0.5,0.38685280723454163
+original,butter for frying and sauteing,1,9,Amul Butter,1.0,1.0
+original,black chocolate cream cookies,1,5,Oreo Biscuits,0.8,0.6309297535714575
+original,cookies for dunking in milk,2,6,Parle-G Biscuits,0.75,0.6509209298071326
+original,namkeen chatpata snack,2,6,Kurkure Masala Munch,0.9166666666666666,0.9197207891481876
+original,crunchy chips packet,2,6,Lays Classic Salted,0.8333333333333334,0.8772153153380493
+original,gentle skin cleanser bar,1,8,Dove Soap,1.0,1.0
+original,nahane ka sabun bath soap,1,6,Dove Soap,1.0,1.0
+original,colgat toothpaste for teeth,1,7,Colgate Toothpaste,1.0,1.0
+original,toothpaste for teeth cleaning,1,6,Colgate Toothpaste,1.0,1.0
+original,laundry detergent powder,1,9,Surf Excel Detergent,1.0,1.0
+original,kapde dhone ka powder detergent,1,8,Surf Excel Detergent,1.0,1.0
+original,items for making cheese butter toast,3,9,Amul Butter,0.8518518518518519,0.8529278650606567
+original,weekend movie binge snacks,7,4,Lays Classic Salted,0.9285714285714286,0.9911205770005563
+fine_tuned,cold soda on a hot day,2,4,Coca Cola,1.0,1.0
+fine_tuned,thanda cold drink for party,2,6,Coca Cola,1.0,1.0
+fine_tuned,fresh amul doodh,1,6,Amul Taaza Milk,1.0,1.0
+fine_tuned,dairy essentials for morning,2,7,Amul Taaza Milk,1.0,1.0
+fine_tuned,sliced bread loaf for breakfast,2,7,Britannia Bread,1.0,1.0
+fine_tuned,double roti packet,2,5,Harvest Brown Bread,1.0,1.0
+fine_tuned,healthy fruit to eat for breakfast,2,4,Banana,1.0,1.0
+fine_tuned,energy fruit for morning,1,6,Banana,1.0,1.0
+fine_tuned,paratha makhan spread,1,7,Amul Butter,1.0,1.0
+fine_tuned,healthy raw fruits,2,5,Banana,1.0,1.0
+fine_tuned,seasonal organic apples,1,6,Red Apple,1.0,1.0
+fine_tuned,juicy ripe tomatoes,1,5,Tomato,1.0,1.0
+fine_tuned,aloo for cooking,1,8,Potato,0.875,0.6309297535714575
+fine_tuned,butter for frying and sauteing,1,9,Amul Butter,1.0,1.0
+fine_tuned,black chocolate cream cookies,1,5,Oreo Biscuits,0.8,0.6309297535714575
+fine_tuned,cookies for dunking in milk,2,6,Parle-G Biscuits,0.6666666666666666,0.5706417189553201
+fine_tuned,namkeen chatpata snack,2,6,Kurkure Masala Munch,0.9166666666666666,0.9197207891481876
+fine_tuned,crunchy chips packet,2,6,Lays Classic Salted,0.9166666666666666,0.9197207891481876
+fine_tuned,gentle skin cleanser bar,1,8,Dove Soap,1.0,1.0
+fine_tuned,nahane ka sabun bath soap,1,6,Dove Soap,1.0,1.0
+fine_tuned,colgat toothpaste for teeth,1,7,Colgate Toothpaste,1.0,1.0
+fine_tuned,toothpaste for teeth cleaning,1,6,Colgate Toothpaste,1.0,1.0
+fine_tuned,laundry detergent powder,1,9,Surf Excel Detergent,1.0,1.0
+fine_tuned,kapde dhone ka powder detergent,1,8,Surf Excel Detergent,1.0,1.0
+fine_tuned,items for making cheese butter toast,3,9,Amul Butter,0.9259259259259259,0.9060254355346823
+fine_tuned,weekend movie binge snacks,7,4,Kurkure Masala Munch,0.9642857142857143,0.9950883841893561

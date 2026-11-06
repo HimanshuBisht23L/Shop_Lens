@@ -7,6 +7,8 @@ from db.models.sale import Sale, SaleItem
 from db.models.inventory_upload import InventoryUpload
 from db.models.search_history import SearchHistory
 from db.models.prediction import Prediction
+from db.models.attribute import Attribute
+from db.models.product_attribute import ProductAttribute
 
 
 __all__ = [
@@ -20,4 +22,6 @@ __all__ = [
     "InventoryUpload",
     "SearchHistory",
     "Prediction",
+    "Attribute",
+    "ProductAttribute"
 ]

@@ -21,6 +21,8 @@ from db.models.inventory_upload import InventoryUpload
 from db.models.prediction import Prediction
 from db.models.sale import Sale, SaleItem
 from db.models.search_history import SearchHistory
+from db.models.attribute import Attribute
+from db.models.product_attribute import ProductAttribute
 
 
 load_dotenv()
@@ -59,6 +61,8 @@ def include_object(object, name, type_, reflected, compare_to):
             "sales",
             "sale_items",
             "search_history",
+            "attributes",
+            "product_attributes",
         }
 
         return name in application_tables
@@ -79,6 +83,8 @@ def include_object(object, name, type_, reflected, compare_to):
                 "sales",
                 "sale_items",
                 "search_history",
+                "attributes",
+                "product_attributes",
             }
 
             return table.name in application_tables

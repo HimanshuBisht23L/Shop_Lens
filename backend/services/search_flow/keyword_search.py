@@ -1,18 +1,24 @@
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
+
 from db.models.product import Product
-
-# import asyncio
-# from db.database import AsyncSessionLocal
+from db.models.product_attribute import ProductAttribute
 
 
-
-async def keyword_search(session: AsyncSession, query: str, limit: int = 20) -> list[Product] :
+async def keyword_search(session: AsyncSession, query: str, limit: int = 20) -> list[Product]:
+    if not query or not query.strip():
+        return []
 
     stmt = (
         select(Product)
+        .options(
+            selectinload(Product.product_attributes).selectinload(
+                ProductAttribute.attribute
+            )
+        )
         .where(
-            Product.name.ilike(f"%{query}%")
+            Product.name.ilike(f"%{query.strip()}%")
         )
         .limit(limit)
     )
@@ -20,20 +26,3 @@ async def keyword_search(session: AsyncSession, query: str, limit: int = 20) -> 
     result = await session.execute(stmt)
 
     return list(result.scalars().all())
-
-
-
-# async def test():
-#     async with AsyncSessionLocal() as session:
-
-#         results = await keyword_search(
-#             session=session,
-#             query="chocolate"
-#         )
-
-#         for product in results:
-#             print(product.id, product.name)
-
-
-# if __name__ == "__main__":
-#     asyncio.run(test())

@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from pgvector.sqlalchemy import Vector
+
 from sqlalchemy import (
     DateTime,
     ForeignKey,
@@ -8,8 +10,9 @@ from sqlalchemy import (
     Text,
     func,
 )
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
+from db.models.product_attribute import ProductAttribute
 from db.database import Base
 
 
@@ -79,8 +82,18 @@ class Product(Base):
         nullable=True
     )
 
-    # Semantic-search embedding will be added later
-    # when pgvector is implemented.
+    
+    embedding: Mapped[list[float] | None] = mapped_column(
+        Vector(384),
+        nullable=True,
+    )
+
+    product_attributes: Mapped[list["ProductAttribute"]] = relationship(
+        "ProductAttribute",
+        back_populates="product",
+        cascade="all, delete-orphan",
+    )
+
 
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),
