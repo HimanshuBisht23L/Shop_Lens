@@ -1,472 +1,248 @@
 -- ============================================================
 -- SHOPLENS DATABASE
--- INITIAL SCHEMA
+-- MODERN PRODUCTION SCHEMA
 -- ============================================================
 
 BEGIN;
-
 
 -- ============================================================
 -- EXTENSIONS
 -- ============================================================
 
--- Fuzzy text search
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
-
--- Geospatial / location support
 CREATE EXTENSION IF NOT EXISTS postgis;
-
--- Normal Language search / sentence transformers
 CREATE EXTENSION IF NOT EXISTS vector;
 
+-- Immutable helper to allow array_to_string inside GENERATED ALWAYS AS tsvector
+CREATE OR REPLACE FUNCTION immutable_array_to_string(arr text[], sep text) 
+RETURNS text LANGUAGE sql IMMUTABLE PARALLEL SAFE AS $$
+    SELECT array_to_string(arr, sep);
+$$;
+
+-- Drop obsolete/legacy tables for clean initialization
+DROP TABLE IF EXISTS sale_items CASCADE;
+DROP TABLE IF EXISTS sales CASCADE;
+DROP TABLE IF EXISTS predictions CASCADE;
+DROP TABLE IF EXISTS inventory_uploads CASCADE;
+DROP TABLE IF EXISTS inventory CASCADE;
+DROP TABLE IF EXISTS search_history CASCADE;
+DROP TABLE IF EXISTS product_attributes CASCADE;
+DROP TABLE IF EXISTS attributes CASCADE;
+DROP TABLE IF EXISTS products CASCADE;
+DROP TABLE IF EXISTS sub_categories CASCADE;
+DROP TABLE IF EXISTS stores CASCADE;
+DROP TABLE IF EXISTS categories CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
 
 -- ============================================================
 -- USERS
 -- ============================================================
 
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
-
     full_name VARCHAR(100) NOT NULL,
-
     email VARCHAR(255) NOT NULL UNIQUE,
-
     password_hash TEXT NOT NULL,
-
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
-
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-
 -- ============================================================
--- CATEGORIES
+-- CATEGORIES & SUB-CATEGORIES
 -- ============================================================
 
-CREATE TABLE categories (
+CREATE TABLE IF NOT EXISTS categories (
     id SERIAL PRIMARY KEY,
-
     name VARCHAR(100) NOT NULL UNIQUE,
-
     description TEXT,
-
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE IF NOT EXISTS sub_categories (
+    id SERIAL PRIMARY KEY,
+    category_id INTEGER NOT NULL REFERENCES categories(id) ON DELETE CASCADE,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    synonyms TEXT[] NOT NULL DEFAULT '{}',
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    CONSTRAINT uq_category_sub_category UNIQUE (category_id, name)
+);
 
 -- ============================================================
 -- STORES
 -- ============================================================
 
-CREATE TABLE stores (
+CREATE TABLE IF NOT EXISTS stores (
     id SERIAL PRIMARY KEY,
-
-    owner_id INTEGER NOT NULL,
-
+    owner_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     name VARCHAR(150) NOT NULL,
-
     description TEXT,
-
     address TEXT NOT NULL,
-
     phone VARCHAR(20),
-
-    -- Latitude/Longitude location
     location GEOGRAPHY(POINT, 4326) NOT NULL,
-
     opening_time TIME,
-
     closing_time TIME,
-
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
-
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-
-    CONSTRAINT fk_store_owner
-        FOREIGN KEY (owner_id)
-        REFERENCES users(id)
-        ON DELETE CASCADE
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
-
 
 -- ============================================================
 -- PRODUCTS
--- MASTER PRODUCT CATALOG
 -- ============================================================
 
-CREATE TABLE products (
+CREATE TABLE IF NOT EXISTS products (
     id SERIAL PRIMARY KEY,
-
-    name VARCHAR(200) NOT NULL,
-
-    normalized_name VARCHAR(200),
-
+    name VARCHAR(255) NOT NULL,
+    brand VARCHAR(100) NOT NULL DEFAULT '',
+    category_id INTEGER REFERENCES categories(id) ON DELETE SET NULL,
+    sub_category_id INTEGER REFERENCES sub_categories(id) ON DELETE SET NULL,
+    sub_category_name VARCHAR(100),
     description TEXT,
-
-    category_id INTEGER,
-
+    net_quantity VARCHAR(50),
     image_url TEXT,
-
-    -- Semantic-search embedding
+    tags TEXT[] NOT NULL DEFAULT '{}',
+    specifications JSONB NOT NULL DEFAULT '{}'::jsonb,
+    
+    -- 384-d dense vector for BAAI/bge-small-en-v1.5
     embedding vector(384) NULL,
 
+    -- Weighted Full-Text Search tsvector (Title: A, Brand: A, Sub-category & Tags: B, Description: C)
+    search_vector tsvector GENERATED ALWAYS AS (
+        setweight(to_tsvector('english', coalesce(name, '')), 'A') ||
+        setweight(to_tsvector('english', coalesce(brand, '')), 'A') ||
+        setweight(to_tsvector('english', coalesce(sub_category_name, '')), 'B') ||
+        setweight(to_tsvector('english', immutable_array_to_string(coalesce(tags, '{}'), ' ')), 'B') ||
+        setweight(to_tsvector('english', coalesce(description, '')), 'C')
+    ) STORED,
+
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-
-    CONSTRAINT fk_product_category
-        FOREIGN KEY (category_id)
-        REFERENCES categories(id)
-        ON DELETE SET NULL
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
-
-
--- ============================================================
--- ATTRIBUTES
--- ============================================================
-
-CREATE TABLE attributes (
-    id SERIAL PRIMARY KEY,
-
-    name VARCHAR(100) NOT NULL UNIQUE,
-
-    description TEXT,
-
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
-
-
--- ============================================================
--- PRODUCT ATTRIBUTES (MAPPING TABLE)
--- ============================================================
-
-CREATE TABLE product_attributes (
-    product_id INTEGER NOT NULL,
-
-    attribute_id INTEGER NOT NULL,
-
-    PRIMARY KEY (product_id, attribute_id),
-
-    CONSTRAINT fk_product_attribute_product
-        FOREIGN KEY (product_id)
-        REFERENCES products(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_product_attribute_attribute
-        FOREIGN KEY (attribute_id)
-        REFERENCES attributes(id)
-        ON DELETE CASCADE
-);
-
 
 -- ============================================================
 -- INVENTORY
--- STORE <-> PRODUCT
 -- ============================================================
 
-CREATE TABLE inventory (
+CREATE TABLE IF NOT EXISTS inventory (
     id SERIAL PRIMARY KEY,
-
-    store_id INTEGER NOT NULL,
-
-    product_id INTEGER NOT NULL,
-
+    store_id INTEGER NOT NULL REFERENCES stores(id) ON DELETE CASCADE,
+    product_id INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
     quantity INTEGER NOT NULL DEFAULT 0,
-
     price NUMERIC(10, 2) NOT NULL,
-
+    mrp NUMERIC(10, 2) NOT NULL DEFAULT 0.00,
     is_available BOOLEAN NOT NULL DEFAULT TRUE,
-
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-
-    CONSTRAINT fk_inventory_store
-        FOREIGN KEY (store_id)
-        REFERENCES stores(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_inventory_product
-        FOREIGN KEY (product_id)
-        REFERENCES products(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT unique_store_product
-        UNIQUE (store_id, product_id),
-
-    CONSTRAINT quantity_non_negative
-        CHECK (quantity >= 0),
-
-    CONSTRAINT price_non_negative
-        CHECK (price >= 0)
+    CONSTRAINT uq_inventory_store_product UNIQUE (store_id, product_id),
+    CONSTRAINT quantity_non_negative CHECK (quantity >= 0),
+    CONSTRAINT price_non_negative CHECK (price >= 0)
 );
-
 
 -- ============================================================
 -- SALES
 -- ============================================================
 
-CREATE TABLE sales (
+CREATE TABLE IF NOT EXISTS sales (
     id SERIAL PRIMARY KEY,
-
-    store_id INTEGER NOT NULL,
-
+    store_id INTEGER NOT NULL REFERENCES stores(id) ON DELETE CASCADE,
     total_amount NUMERIC(12, 2) NOT NULL DEFAULT 0,
-
     sold_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-
-    CONSTRAINT fk_sale_store
-        FOREIGN KEY (store_id)
-        REFERENCES stores(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT sale_total_non_negative
-        CHECK (total_amount >= 0)
+    CONSTRAINT sale_total_non_negative CHECK (total_amount >= 0)
 );
 
-
--- ============================================================
--- SALE ITEMS
--- ============================================================
-
-CREATE TABLE sale_items (
+CREATE TABLE IF NOT EXISTS sale_items (
     id SERIAL PRIMARY KEY,
-
-    sale_id INTEGER NOT NULL,
-
-    product_id INTEGER NOT NULL,
-
+    sale_id INTEGER NOT NULL REFERENCES sales(id) ON DELETE CASCADE,
+    product_id INTEGER NOT NULL REFERENCES products(id) ON DELETE RESTRICT,
     quantity INTEGER NOT NULL,
-
     unit_price NUMERIC(10, 2) NOT NULL,
-
     subtotal NUMERIC(12, 2) NOT NULL,
-
-    CONSTRAINT fk_sale_item_sale
-        FOREIGN KEY (sale_id)
-        REFERENCES sales(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_sale_item_product
-        FOREIGN KEY (product_id)
-        REFERENCES products(id)
-        ON DELETE RESTRICT,
-
-    CONSTRAINT sale_item_quantity_positive
-        CHECK (quantity > 0),
-
-    CONSTRAINT sale_item_price_non_negative
-        CHECK (unit_price >= 0),
-
-    CONSTRAINT sale_item_subtotal_non_negative
-        CHECK (subtotal >= 0)
+    CONSTRAINT sale_item_quantity_positive CHECK (quantity > 0),
+    CONSTRAINT sale_item_price_non_negative CHECK (unit_price >= 0),
+    CONSTRAINT sale_item_subtotal_non_negative CHECK (subtotal >= 0)
 );
-
 
 -- ============================================================
 -- INVENTORY UPLOADS
 -- ============================================================
 
-CREATE TABLE inventory_uploads (
+CREATE TABLE IF NOT EXISTS inventory_uploads (
     id SERIAL PRIMARY KEY,
-
-    store_id INTEGER NOT NULL,
-
+    store_id INTEGER NOT NULL REFERENCES stores(id) ON DELETE CASCADE,
     file_name VARCHAR(255) NOT NULL,
-
     file_type VARCHAR(20) NOT NULL,
-
     status VARCHAR(30) NOT NULL DEFAULT 'pending',
-
     total_records INTEGER NOT NULL DEFAULT 0,
-
     successful_records INTEGER NOT NULL DEFAULT 0,
-
     failed_records INTEGER NOT NULL DEFAULT 0,
-
     error_message TEXT,
-
     uploaded_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-
-    completed_at TIMESTAMPTZ,
-
-    CONSTRAINT fk_upload_store
-        FOREIGN KEY (store_id)
-        REFERENCES stores(id)
-        ON DELETE CASCADE
+    completed_at TIMESTAMPTZ
 );
-
 
 -- ============================================================
 -- SEARCH HISTORY
 -- ============================================================
 
-CREATE TABLE search_history (
+CREATE TABLE IF NOT EXISTS search_history (
     id SERIAL PRIMARY KEY,
-
-    user_id INTEGER,
-
+    user_id INTEGER REFERENCES users(id) ON DELETE SET NULL,
     query TEXT NOT NULL,
-
     latitude DOUBLE PRECISION,
-
     longitude DOUBLE PRECISION,
-
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-
-    CONSTRAINT fk_search_user
-        FOREIGN KEY (user_id)
-        REFERENCES users(id)
-        ON DELETE SET NULL
+    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
-
 -- ============================================================
--- AI / DEMAND PREDICTIONS
+-- AI PREDICTIONS
 -- ============================================================
 
-CREATE TABLE predictions (
+CREATE TABLE IF NOT EXISTS predictions (
     id SERIAL PRIMARY KEY,
-
-    store_id INTEGER NOT NULL,
-
-    product_id INTEGER NOT NULL,
-
+    store_id INTEGER NOT NULL REFERENCES stores(id) ON DELETE CASCADE,
+    product_id INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE,
     predicted_quantity INTEGER NOT NULL,
-
     confidence NUMERIC(5, 2),
-
     prediction_date DATE NOT NULL,
-
     generated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-
-    CONSTRAINT fk_prediction_store
-        FOREIGN KEY (store_id)
-        REFERENCES stores(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_prediction_product
-        FOREIGN KEY (product_id)
-        REFERENCES products(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT predicted_quantity_non_negative
-        CHECK (predicted_quantity >= 0),
-
-    CONSTRAINT confidence_valid
-        CHECK (
-            confidence IS NULL
-            OR confidence BETWEEN 0 AND 100
-        )
+    CONSTRAINT predicted_quantity_non_negative CHECK (predicted_quantity >= 0),
+    CONSTRAINT confidence_valid CHECK (confidence IS NULL OR (confidence >= 0 AND confidence <= 100))
 );
-
 
 -- ============================================================
 -- INDEXES
 -- ============================================================
 
+CREATE INDEX IF NOT EXISTS idx_products_category ON products(category_id);
+CREATE INDEX IF NOT EXISTS idx_products_sub_category ON products(sub_category_id);
+CREATE INDEX IF NOT EXISTS idx_products_brand ON products(brand);
+CREATE INDEX IF NOT EXISTS idx_products_sub_category_name ON products(sub_category_name);
+CREATE INDEX IF NOT EXISTS idx_products_search_vector ON products USING gin(search_vector);
+CREATE INDEX IF NOT EXISTS idx_products_name_trgm ON products USING gin(name gin_trgm_ops);
+CREATE INDEX IF NOT EXISTS idx_products_tags ON products USING gin(tags);
 
--- ------------------------------------------------------------
--- PostGIS location index
--- ------------------------------------------------------------
-
-CREATE INDEX idx_stores_location
-ON stores
-USING GIST (location);
-
-
--- ------------------------------------------------------------
--- pg_trgm fuzzy search indexes
--- ------------------------------------------------------------
-
-CREATE INDEX idx_products_name_trgm
-ON products
-USING GIN (name gin_trgm_ops);
-
-
-CREATE INDEX idx_products_normalized_name_trgm
-ON products
-USING GIN (normalized_name gin_trgm_ops);
-
-
--- ------------------------------------------------------------
--- Foreign-key / lookup indexes
--- ------------------------------------------------------------
-
-CREATE INDEX idx_products_category
-ON products(category_id);
-
-
-CREATE INDEX idx_inventory_store
-ON inventory(store_id);
-
-
-CREATE INDEX idx_inventory_product
-ON inventory(product_id);
-
-
-CREATE INDEX idx_sales_store
-ON sales(store_id);
-
-
-CREATE INDEX idx_sales_sold_at
-ON sales(sold_at);
-
-
-CREATE INDEX idx_sale_items_sale
-ON sale_items(sale_id);
-
-
-CREATE INDEX idx_sale_items_product
-ON sale_items(product_id);
-
-
-CREATE INDEX idx_search_history_user
-ON search_history(user_id);
-
-
-CREATE INDEX idx_search_history_created
-ON search_history(created_at);
-
-
-CREATE INDEX idx_predictions_store_product
-ON predictions(store_id, product_id);
-
-
-CREATE INDEX idx_product_attributes_attribute
-ON product_attributes(attribute_id);
-
+CREATE INDEX IF NOT EXISTS idx_stores_location ON stores USING gist(location);
+CREATE INDEX IF NOT EXISTS idx_inventory_store ON inventory(store_id);
+CREATE INDEX IF NOT EXISTS idx_inventory_product ON inventory(product_id);
+CREATE INDEX IF NOT EXISTS idx_sales_store ON sales(store_id);
+CREATE INDEX IF NOT EXISTS idx_sales_sold_at ON sales(sold_at);
+CREATE INDEX IF NOT EXISTS idx_sale_items_sale ON sale_items(sale_id);
+CREATE INDEX IF NOT EXISTS idx_sale_items_product ON sale_items(product_id);
+CREATE INDEX IF NOT EXISTS idx_search_history_user ON search_history(user_id);
+CREATE INDEX IF NOT EXISTS idx_search_history_created ON search_history(created_at);
+CREATE INDEX IF NOT EXISTS idx_predictions_store_product ON predictions(store_id, product_id);
 
 -- ============================================================
--- TABLE COMMENTS
+-- COMMENTS
 -- ============================================================
 
-COMMENT ON TABLE users IS
-'All ShopLens user accounts. A user can also own/manage a store.';
-
-COMMENT ON TABLE stores IS
-'Local stores registered on ShopLens.';
-
-COMMENT ON TABLE products IS
-'Master product catalog shared across stores.';
-
-COMMENT ON TABLE inventory IS
-'Store-specific product quantity and price.';
-
-COMMENT ON TABLE attributes IS
-'Predefined product attributes for categorization and search refinement.';
-
-COMMENT ON TABLE product_attributes IS
-'Association table linking products to their assigned attributes.';
-
-
--- ============================================================
--- FINISH
--- ============================================================
+COMMENT ON TABLE users IS 'All ShopLens user accounts. A user can also own/manage a store.';
+COMMENT ON TABLE stores IS 'Local stores registered on ShopLens.';
+COMMENT ON TABLE categories IS '13 quick-commerce categories.';
+COMMENT ON TABLE sub_categories IS '50 granular quick-commerce sub-categories with synonyms.';
+COMMENT ON TABLE products IS 'Master catalog with brand, sub-category, tags, JSONB specs and BGE embeddings.';
+COMMENT ON TABLE inventory IS 'Store-specific product quantity, MRP, price, and availability.';
 
 COMMIT;
-
-
-SELECT 'ShopLens database schema created successfully.' AS message;

@@ -1,129 +1,132 @@
 """
-API regression tests for FastAPI /api/v1/search endpoint.
-Verifies HTTP status codes, query validation, and response contracts using httpx.
+Integration Tests for ShopLens Search FastAPI Endpoints.
 """
 
 import pytest
-from httpx import AsyncClient, ASGITransport
-from main import app
-from db.database import get_db
-
-
-LAT = 30.3165
-LON = 78.0322
+import httpx
 
 
 @pytest.mark.anyio
-async def test_search_api_requires_location():
-    # Location (latitude & longitude) is mandatory for consumer search
-    async with AsyncClient(
-        transport=ASGITransport(app=app),
-        base_url="http://test",
-    ) as client:
-        # Omitting latitude and longitude should result in 422 Unprocessable Entity
-        response = await client.get("/api/v1/search", params={"q": "milk"})
-        assert response.status_code == 422
+async def test_get_search_products_exact(async_client: httpx.AsyncClient):
+    response = await async_client.get(
+        "/api/v1/search",
+        params={
+            "q": "chocolate",
+            "latitude": 30.3256,
+            "longitude": 78.0322,
+            "radius_km": 15.0,
+            "limit": 10,
+        },
+    )
+    assert response.status_code == 200
+    data = response.json()
+    assert data["query"] == "chocolate"
+    assert data["total_results"] > 0
+    first_item = data["results"][0]
+    assert "product_name" in first_item
+    assert "brand" in first_item
+    assert "sub_category_name" in first_item
+    assert "net_quantity" in first_item
+    assert "store" in first_item
+    assert "distance_km" in first_item
+    assert "score" in first_item
+    assert len(first_item["sources"]) > 0
 
 
 @pytest.mark.anyio
-async def test_search_api_exact_match(db_session):
-    async def override_get_db():
-        yield db_session
-
-    app.dependency_overrides[get_db] = override_get_db
-
-    try:
-        async with AsyncClient(
-            transport=ASGITransport(app=app),
-            base_url="http://test",
-        ) as client:
-            response = await client.get(
-                "/api/v1/search",
-                params={
-                    "q": "Amul Butter",
-                    "latitude": LAT,
-                    "longitude": LON,
-                },
-            )
-
-            assert response.status_code == 200
-            data = response.json()
-            assert data["query"] == "amul butter"
-            assert isinstance(data["results"], list)
-            assert len(data["results"]) > 0
-
-            first = data["results"][0]
-            assert first["product_name"] == "Amul Butter"
-            assert first["score"] == 1.0
-            assert "store" in first
-            assert "distance_km" in first
-            assert "price" in first
-    finally:
-        app.dependency_overrides.clear()
+async def test_post_search_products_exact(async_client: httpx.AsyncClient):
+    payload = {
+        "query": "chocolate",
+        "latitude": 30.3256,
+        "longitude": 78.0322,
+        "radius_km": 15.0,
+        "limit": 10,
+    }
+    response = await async_client.post("/api/v1/search/products", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["query"] == "chocolate"
+    assert data["total_results"] > 0
+    first_item = data["results"][0]
+    assert "product_name" in first_item
+    assert "brand" in first_item
+    assert "sub_category_name" in first_item
+    assert "net_quantity" in first_item
+    assert "store" in first_item
+    assert "distance_km" in first_item
+    assert "score" in first_item
+    assert len(first_item["sources"]) > 0
 
 
 @pytest.mark.anyio
-async def test_search_api_semantic_search(db_session):
-    async def override_get_db():
-        yield db_session
-
-    app.dependency_overrides[get_db] = override_get_db
-
-    try:
-        async with AsyncClient(
-            transport=ASGITransport(app=app),
-            base_url="http://test",
-        ) as client:
-            response = await client.get(
-                "/api/v1/search",
-                params={
-                    "q": "something to drink",
-                    "latitude": LAT,
-                    "longitude": LON,
-                },
-            )
-
-            assert response.status_code == 200
-            data = response.json()
-            assert len(data["results"]) > 0
-
-            # Must contain drinks
-            product_names = [r["product_name"] for r in data["results"]]
-            assert any(p in ("Pepsi", "Coca Cola", "Real Mixed Fruit Juice", "Amul Taaza Milk") for p in product_names)
-    finally:
-        app.dependency_overrides.clear()
+async def test_post_search_something_to_drink(async_client: httpx.AsyncClient):
+    payload = {
+        "query": "something to drink",
+        "latitude": 30.3256,
+        "longitude": 78.0322,
+        "radius_km": 20.0,
+        "limit": 10,
+    }
+    response = await async_client.post("/api/v1/search/products", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["total_results"] > 0
+    allowed_categories = ["Drinks & Juices", "Dairy, Bread & Eggs", "Beverages"]
+    for item in data["results"][:5]:
+        assert item["category_name"] in allowed_categories, f"Unexpected category {item['category_name']} for drinks"
 
 
 @pytest.mark.anyio
-async def test_search_api_filters_applied(db_session):
-    async def override_get_db():
-        yield db_session
+async def test_post_search_something_sweet(async_client: httpx.AsyncClient):
+    payload = {
+        "query": "something sweet",
+        "latitude": 30.3256,
+        "longitude": 78.0322,
+        "radius_km": 20.0,
+        "limit": 10,
+    }
+    response = await async_client.post("/api/v1/search/products", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["total_results"] > 0
+    top_names = [item["product_name"].lower() for item in data["results"][:5]]
+    # Ensure chips are excluded and sweet items are returned
+    assert not any("chips" in n for n in top_names)
+    assert any(
+        w in " ".join(top_names)
+        for w in ["chocolate", "biscuit", "sweet", "rusk", "sugar", "cookie", "cake", "ice cream"]
+    )
 
-    app.dependency_overrides[get_db] = override_get_db
 
-    try:
-        async with AsyncClient(
-            transport=ASGITransport(app=app),
-            base_url="http://test",
-        ) as client:
-            response = await client.get(
-                "/api/v1/search",
-                params={
-                    "q": "chocolate",
-                    "latitude": LAT,
-                    "longitude": LON,
-                    "max_price": 50.0,
-                    "radius_km": 5.0,
-                },
-            )
+@pytest.mark.anyio
+async def test_post_search_household_things(async_client: httpx.AsyncClient):
+    payload = {
+        "query": "household things",
+        "latitude": 30.3256,
+        "longitude": 78.0322,
+        "radius_km": 20.0,
+        "limit": 10,
+    }
+    response = await async_client.post("/api/v1/search/products", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    assert data["total_results"] > 0
+    top_categories = [item["category_name"] for item in data["results"][:5]]
+    assert any("Cleaning & Household" in c for c in top_categories)
 
-            assert response.status_code == 200
-            data = response.json()
-            assert data["filters"]["max_price"] == 50.0
-            assert data["filters"]["radius_km"] == 5.0
 
-            for item in data["results"]:
-                assert item["price"] <= 50.0
-                assert item["distance_km"] <= 5.0
-    finally:
-        app.dependency_overrides.clear()
+@pytest.mark.anyio
+async def test_post_search_with_price_filter(async_client: httpx.AsyncClient):
+    payload = {
+        "query": "biscuit",
+        "latitude": 30.3256,
+        "longitude": 78.0322,
+        "max_price": 50.0,
+        "radius_km": 15.0,
+        "limit": 10,
+    }
+    response = await async_client.post("/api/v1/search/products", json=payload)
+    assert response.status_code == 200
+    data = response.json()
+    for item in data["results"]:
+        assert item["price"] <= 50.0

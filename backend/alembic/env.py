@@ -17,12 +17,11 @@ from db.models.users import User
 from db.models.store import Store
 from db.models.inventory import Inventory
 from db.models.category import Category
+from db.models.sub_category import SubCategory
 from db.models.inventory_upload import InventoryUpload
 from db.models.prediction import Prediction
 from db.models.sale import Sale, SaleItem
 from db.models.search_history import SearchHistory
-from db.models.attribute import Attribute
-from db.models.product_attribute import ProductAttribute
 
 
 load_dotenv()

@@ -4,26 +4,8 @@ from sqlalchemy.ext.asyncio import (
     create_async_engine,
 )
 from sqlalchemy.orm import DeclarativeBase
-from pydantic_settings import BaseSettings, SettingsConfigDict
 
-
-# ============================================================
-# SETTINGS
-# ============================================================
-
-class Settings(BaseSettings):
-    DATABASE_URL: str
-
-    JWT_SECRET_KEY: str
-    JWT_ALGORITHM: str = "HS256"
-    JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
-
-    model_config = SettingsConfigDict(
-        env_file=".env",
-        extra="ignore",
-    )
-
-settings = Settings()
+from config import settings
 
 
 # ============================================================
@@ -48,7 +30,7 @@ AsyncSessionLocal = async_sessionmaker(
 
 
 # ============================================================
-# BASE MODEL
+# DECLARATIVE BASE
 # ============================================================
 
 class Base(DeclarativeBase):
@@ -56,13 +38,12 @@ class Base(DeclarativeBase):
 
 
 # ============================================================
-# DATABASE SESSION DEPENDENCY
+# FASTAPI DEPENDENCY
 # ============================================================
 
 async def get_db():
     async with AsyncSessionLocal() as session:
         try:
             yield session
-        except Exception:
-            await session.rollback()
-            raise
+        finally:
+            await session.close()

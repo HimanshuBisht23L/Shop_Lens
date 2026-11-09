@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from db.database import get_db
-from apis.v1.schemas.search import UIFilters
-from services.search_service.search_service import search_products
+from apis.v1.schemas.search import SearchRequest, SearchResponse
+from services.search.search_service import execute_search
 
 
 router = APIRouter(
@@ -12,30 +12,34 @@ router = APIRouter(
 )
 
 
-@router.get("")
-async def search_products_route(
-    q: str,
-
-    latitude: float,
-    longitude: float,
-
-    min_price: float | None = None,
-    max_price: float | None = None,
-    radius_km: float | None = None,
-
+@router.get("", response_model=SearchResponse)
+async def search_products_get(
+    q: str = Query(..., min_length=1, description="Search query string"),
+    latitude: float = Query(..., ge=-90.0, le=90.0, description="User latitude"),
+    longitude: float = Query(..., ge=-180.0, le=180.0, description="User longitude"),
+    min_price: float | None = Query(None, ge=0.0, description="Minimum price filter"),
+    max_price: float | None = Query(None, ge=0.0, description="Maximum price filter"),
+    radius_km: float | None = Query(None, gt=0.0, description="Search radius in km"),
+    category_id: int | None = Query(None, description="Optional category filter"),
+    limit: int = Query(20, ge=1, le=100, description="Maximum results to return"),
     session: AsyncSession = Depends(get_db),
 ):
-
-    ui_filters = UIFilters(
+    request = SearchRequest(
+        query=q,
+        latitude=latitude,
+        longitude=longitude,
         min_price=min_price,
         max_price=max_price,
         radius_km=radius_km,
+        category_id=category_id,
+        limit=limit,
     )
+    return await execute_search(session=session, request=request)
 
-    return await search_products(
-        session=session,
-        query=q,
-        ui_filters=ui_filters,
-        latitude=latitude,
-        longitude=longitude,
-    )
+
+@router.post("/products", response_model=SearchResponse)
+async def search_products_post(
+    request: SearchRequest,
+    session: AsyncSession = Depends(get_db),
+):
+    return await execute_search(session=session, request=request)

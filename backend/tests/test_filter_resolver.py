@@ -1,74 +1,93 @@
 """
-Unit tests for filter resolver and search filter validation.
+Unit Tests for Search V2 Filter Resolver.
 """
 
+import sys
+from pathlib import Path
+
+BACKEND_DIR = Path(__file__).resolve().parent.parent.parent / "backend"
+if str(BACKEND_DIR) not in sys.path:
+    sys.path.insert(0, str(BACKEND_DIR))
+
 import pytest
-from apis.v1.schemas.search import NormalizedQuery, UIFilters, SearchFilters
-from services.search_flow.filter_resolver import resolve_filters
+from services.search.query.normalizer import NormalizedQueryOutput
+from services.search.query.filter_resolver import resolve_filters
 
 
-def test_ui_filters_precedence():
-    # When both UI and query filters are provided, UI filters must take precedence
-    parsed = NormalizedQuery(
-        query="chocolate",
-        min_price=10.0,
-        max_price=50.0,
-        radius_km=5.0,
+def test_ui_precedence_over_parsed():
+    parsed = NormalizedQueryOutput(
+        original_query="cake under 300",
+        cleaned_query="cake",
+        max_price=300.0,
+        radius_km=2.0,
     )
-
-    ui = UIFilters(
-        min_price=20.0,
-        max_price=100.0,
-        radius_km=10.0,
+    resolved = resolve_filters(
+        parsed=parsed,
+        ui_max_price=500.0,
+        ui_radius_km=10.0,
     )
-
-    resolved = resolve_filters(parsed, ui)
-
-    assert resolved.min_price == 20.0
-    assert resolved.max_price == 100.0
+    assert resolved.search_text == "cake"
+    assert resolved.max_price == 500.0
     assert resolved.radius_km == 10.0
 
 
-def test_fallback_to_query_filters():
-    # When UI filters are None, query filters should be used
-    parsed = NormalizedQuery(
-        query="milk",
-        min_price=30.0,
+def test_fallback_to_parsed_when_ui_absent():
+    parsed = NormalizedQueryOutput(
+        original_query="doodh under 60",
+        cleaned_query="milk",
         max_price=60.0,
         radius_km=3.0,
     )
-
-    ui = UIFilters(
-        min_price=None,
-        max_price=None,
-        radius_km=None,
+    resolved = resolve_filters(
+        parsed=parsed,
+        ui_max_price=None,
+        ui_radius_km=None,
     )
-
-    resolved = resolve_filters(parsed, ui)
-
-    assert resolved.min_price == 30.0
+    assert resolved.search_text == "milk"
     assert resolved.max_price == 60.0
     assert resolved.radius_km == 3.0
 
 
-def test_search_filters_validation_negative_min_price():
-    with pytest.raises(ValueError, match="Minimum price cannot be negative"):
-        SearchFilters(min_price=-5.0)
+def test_radius_defaults_to_none_when_unspecified():
+    parsed = NormalizedQueryOutput(
+        original_query="chocolate",
+        cleaned_query="chocolate",
+        radius_km=None,
+    )
+    resolved = resolve_filters(parsed=parsed)
+    assert resolved.radius_km is None, "Radius must remain None unless explicitly provided"
 
 
-def test_search_filters_validation_negative_max_price():
-    with pytest.raises(ValueError, match="Maximum price cannot be negative"):
-        SearchFilters(max_price=-10.0)
+def test_radius_preserved_when_explicitly_in_query():
+    parsed = NormalizedQueryOutput(
+        original_query="milk within 5km",
+        cleaned_query="milk",
+        radius_km=5.0,
+    )
+    resolved = resolve_filters(parsed=parsed)
+    assert resolved.radius_km == 5.0
 
 
-def test_search_filters_validation_min_greater_than_max():
-    with pytest.raises(ValueError, match="Minimum price cannot be greater than maximum price"):
-        SearchFilters(min_price=100.0, max_price=50.0)
+def test_invalid_price_range_raises_error():
+    parsed = NormalizedQueryOutput(
+        original_query="biscuit",
+        cleaned_query="biscuit",
+    )
+    with pytest.raises(ValueError, match="cannot exceed max_price"):
+        resolve_filters(
+            parsed=parsed,
+            ui_min_price=100.0,
+            ui_max_price=50.0,
+        )
 
 
-def test_search_filters_validation_radius_zero_or_negative():
-    with pytest.raises(ValueError, match="Radius must be greater than 0"):
-        SearchFilters(radius_km=0.0)
-
-    with pytest.raises(ValueError, match="Radius must be greater than 0"):
-        SearchFilters(radius_km=-2.0)
+def test_invalid_negative_radius_raises_error():
+    parsed = NormalizedQueryOutput(
+        original_query="biscuit",
+        cleaned_query="biscuit",
+    )
+    with pytest.raises(ValueError, match="must be positive"):
+        resolve_filters(
+            parsed=parsed,
+            ui_radius_km=-5.0,
+        )
